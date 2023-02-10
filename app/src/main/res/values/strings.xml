@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Folklore</string>
+    <string name="home_screen_title">Join with\nupcoming events</string>
+    <string name="home_screen_title_collapsed">Join with upcoming events</string>
+</resources>
