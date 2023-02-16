@@ -36,17 +36,14 @@ import com.folklore.app.R
 import com.folklore.app.presentation.ui.view.destinations.EventScreenDestination
 import com.folklore.app.presentation.utils.Utilities
 import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @OptIn(ExperimentalMaterial3Api::class)
-@RootNavGraph(start = true)
 @Destination
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
     homeViewModel: HomeViewModel = viewModel(),
-    navigator: DestinationsNavigator
+    navigator: DestinationsNavigator,
 ) {
     val homeUiState by homeViewModel.uiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
@@ -69,7 +66,7 @@ fun HomeScreen(
                 scrollBehavior = scrollBehavior,
             )
         },
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { contentPadding ->
         Column(
             modifier = Modifier
@@ -79,7 +76,7 @@ fun HomeScreen(
                     end = 16.dp,
                 )
                 .fillMaxSize(),
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             OutlinedTextField(
                 modifier = Modifier.fillMaxWidth(),
@@ -97,7 +94,7 @@ fun HomeScreen(
                 label = {
                     Text(
                         text = "Search and filter",
-                        style = MaterialTheme.typography.labelMedium
+                        style = MaterialTheme.typography.labelMedium,
                     )
                 },
                 trailingIcon = {
@@ -106,10 +103,10 @@ fun HomeScreen(
                         contentDescription = "Filter Icon",
                         modifier = Modifier.clickable {
                             Log.d("Filter Icon", "onClick")
-                        }
+                        },
                     )
                 },
-                shape = RoundedCornerShape(50.dp)
+                shape = RoundedCornerShape(50.dp),
             )
             EventsGroup(
                 header = "Popular",

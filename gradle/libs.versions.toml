@@ -2,7 +2,7 @@
 
 # Project
 android_compile_sdk = "33"
-android_gradle_plugin = "7.4.0"
+android_gradle_plugin = "7.4.1"
 android_min_sdk = "26"
 android_target_sdk = "33"
 kotlin = "1.8.10"
@@ -17,6 +17,7 @@ compose_destinations = "1.8.33-beta"
 okhttp = "4.10.0"
 retrofit = "2.9.0"
 retrofitKotlinxSerializationJson = "0.8.0"
+moshi = "2.4.0"
 
 # AndroidX
 corektx = "1.9.0"
@@ -30,6 +31,8 @@ compose_compiler = "1.4.2"
 compose_viewmodel = "2.5.1"
 compose_activity = "1.6.1"
 compose_material3 = "1.0.1"
+compose_material2 = "1.4.0-beta01"
+accompanist = "0.29.1-alpha"
 
 # Coroutines
 coroutines = "1.6.4"
@@ -37,25 +40,21 @@ coroutines = "1.6.4"
 # Room
 room = "2.5.0"
 
-# Koin
-koin = "3.1.0"
 
 #hilt
-hilt = "2.44.2"
-hiltExt = "1.0.0"
-
-# Accompanist
-accompanist = "0.28.0"
+hilt = "2.45"
+hiltCompose = "1.0.0"
 
 # Test
-test_junit = "4.12"
+# Test
+test_junit = "4.13.2"
 test_runner = "1.1.1"
 test_core = "1.4.0"
-test_mockk = "1.12.0"
-test_uiautomator = "2.2.0"
 test_junitext = "1.1.0"
-test_barista = "4.0.0"
 test_espresso_core = "3.5.1"
+mockito-kotlin = "4.1.0"
+mockito-core = "5.1.1"
+kluent = "1.72"
 
 # Quality
 ktlint = "0.43.2"
@@ -82,12 +81,14 @@ compose_activity = { module = "androidx.activity:activity-compose", version.ref 
 compose_uitest = { module = "androidx.compose.ui:ui-test", version.ref = "compose" }
 compose_junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 compose_manifest = { module = "androidx.compose.ui:ui-test-manifest", version.ref = "compose" }
+compose_material2 = { module = "androidx.compose.material:material", version.ref = "compose_material2" }
 
 compose_destinations = { module = "io.github.raamcosta.compose-destinations:core", version.ref = "compose-destinations" }
 compose_destinations_ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "compose-destinations" }
 
 # Coroutines
 coroutines_core = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-core", version.ref = "coroutines" }
+coroutines_android = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-android", version.ref = "coroutines" }
 coroutines_test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "coroutines" }
 
 # Room
@@ -96,14 +97,6 @@ androidx_room_compiler = { module = "androidx.room:room-compiler", version.ref =
 androidx_room_ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
 androidx_room_test = { module = "androidx.room:room-testing", version.ref = "room" }
 
-#Koin
-koin_core = { module = "io.insert-koin:koin-core", version.ref = "koin" }
-koin_android = { module = "io.insert-koin:koin-android", version.ref = "koin" }
-koin_compose = { module = "io.insert-koin:koin-androidx-compose", version.ref = "koin" }
-koin_test = { module = "io.insert-koin:koin-test", version.ref = "koin" }
-
-# Accompanist
-accompanist_animation = { module = "com.google.accompanist:accompanist-navigation-animation", version.ref = "accompanist" }
 
 # Test
 test_junit = { module = "junit:junit", version.ref = "test_junit" }
@@ -111,7 +104,9 @@ test_runner = { module = "androidx.test:runner", version.ref = "test_runner" }
 test_core = { module = "androidx.test:core", version.ref = "test_core" }
 test_corektx = { module = "androidx.test:core-ktx", version.ref = "test_core" }
 test_junitext = { module = "androidx.test.ext:junit", version.ref = "test_junitext" }
-test_espresso_core = { module = "androidx.test.espresso:espresso-core", version.ref = "test_espresso_core" }
+mockito-core = { module = "org.mockito:mockito-inline", version.ref = "mockito-core" }
+mockito-kotlin = { module = "org.mockito.kotlin:mockito-kotlin", version.ref = "mockito-kotlin" }
+kluent = { module = "org.amshove.kluent:kluent-android", version.ref = "kluent" }
 test_ui_junit4 = { module = "androidx.compose.ui:ui-test-junit4", version.ref = "compose" }
 
 # Quality
@@ -121,8 +116,13 @@ detektFormatting = { module = "io.gitlab.arturbosch.detekt:detekt-formatting", v
 
 #retrofit
 retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
-retrofit-kotlin-serialization = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationJson" }
+moshi-retrofit = { module = "com.squareup.retrofit2:converter-moshi", version.ref = "moshi" }
 okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+
+#hilt
+hilt-android = { module = "com.google.dagger:hilt-android", version.ref = "hilt" }
+hilt-kapt = { module = "com.google.dagger:hilt-android-compiler", version.ref = "hilt" }
+hilt-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltCompose" }
 
 [bundles]
 
@@ -132,8 +132,6 @@ android-library = { id = "com.android.library", version.ref = "android_gradle_pl
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
 

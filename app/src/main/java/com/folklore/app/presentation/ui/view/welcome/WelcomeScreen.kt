@@ -1,6 +1,5 @@
 package com.folklore.app.presentation.ui.view.welcome
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -15,47 +14,54 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import com.folklore.app.presentation.ui.view.destinations.HomeScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
+@RootNavGraph(start = true)
 @Destination
 @Composable
-fun WelcomeScreen() {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colorScheme.onBackground)
-            .padding(32.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom)
-    ) {
-        Text(
-            color = MaterialTheme.colorScheme.background,
-            text = "Create & find\nevents in one place",
-            style = MaterialTheme.typography.headlineMedium
-        )
-        Text(
-            color = MaterialTheme.colorScheme.background,
-            text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
-            style = MaterialTheme.typography.bodyMedium
-        )
-        Button(
-            onClick = { }
+fun WelcomeScreen(
+    viewModel: WelcomeViewModel = hiltViewModel(),
+    navigator: DestinationsNavigator,
+) {
+    val state = viewModel.uiState.collectAsState()
+    val screenWasDisplayed = state.value.screenWasAlreadyDisplayed
+    if (screenWasDisplayed) {
+        navigator.navigate(HomeScreenDestination)
+    } else if (!state.value.fetchingPreferences) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(32.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp, Alignment.Bottom),
         ) {
-            Text(text = "Get Started")
-            Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-            Icon(
-                imageVector = Icons.Rounded.ArrowForward,
-                contentDescription = "Forward Icon"
+            Text(
+                text = "Create & find\nevents in one place",
+                style = MaterialTheme.typography.headlineMedium,
             )
+            Text(
+                text = "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+                style = MaterialTheme.typography.bodyMedium,
+            )
+            Button(
+                onClick = {
+                    viewModel.markScreenAsDisplayed()
+                },
+            ) {
+                Text(text = "Get Started")
+                Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
+                Icon(
+                    imageVector = Icons.Rounded.ArrowForward,
+                    contentDescription = "Forward Icon",
+                )
+            }
         }
     }
-}
-
-@Preview
-@Composable
-fun WelcomeScreenPreview() {
-    WelcomeScreen()
 }
