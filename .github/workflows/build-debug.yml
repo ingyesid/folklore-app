@@ -44,11 +44,11 @@ jobs:
             gradle-${{ hashFiles('gradle-checksums.txt') }}-  
 
     - name: Setup local.properties
-        env:
-          APIURL: ${{ secrets.APIURL }}
-          APPID: ${{ secrets.APPID }}          
-          APIRESTKEY: ${{ secrets.APIRESTKEY }}
-        run: |
+      env:
+        APIURL: ${{ secrets.APIURL }}
+        APPID: ${{ secrets.APPID }}          
+        APIRESTKEY: ${{ secrets.APIRESTKEY }}
+      run: |
           sed "s|APIRESTKEY|$APIRESTKEY|g; s|APPID|$APPID|g; s|APIURL|$APIURL|g" local.defaults.properties > local.properties
 
     - name: Build APK
