@@ -1,9 +1,11 @@
 package com.folklore.app.presentation.utils
 
+import com.folklore.app.BuildConfig
 import com.folklore.app.presentation.model.EventModel
 
 class Utilities {
     companion object {
+        val key = BuildConfig.VERSION_CODE
         val popularDemoEvents =
             listOf(
                 EventModel(
@@ -16,7 +18,7 @@ class Utilities {
                     city = "Corozal",
                     state = "Sucre",
                     startAt = "Nov 24, 2022",
-                    endsAt = ""
+                    endsAt = "",
                 ),
                 EventModel(
                     id = "XYZ",
@@ -28,7 +30,7 @@ class Utilities {
                     city = "El Carito",
                     state = "Cordoba",
                     startAt = "17 Jun, 2022",
-                    endsAt = ""
+                    endsAt = "",
                 ),
                 EventModel(
                     id = "XYZ",
@@ -40,7 +42,7 @@ class Utilities {
                     city = "San Antero",
                     state = "Cordoba",
                     startAt = "May 27, 2022",
-                    endsAt = ""
+                    endsAt = "",
                 ),
                 EventModel(
                     id = "XYZ",
@@ -52,7 +54,7 @@ class Utilities {
                     city = "Morroa",
                     state = "Sucre",
                     startAt = "17 Dec, 2022",
-                    endsAt = ""
+                    endsAt = "",
                 ),
 
             )
@@ -67,7 +69,7 @@ class Utilities {
                     city = "Since",
                     state = "Sucre",
                     startAt = "17 Dec, 2022",
-                    endsAt = "20 Dec, 2022"
+                    endsAt = "20 Dec, 2022",
                 ),
                 EventModel(
                     id = "XYZ",
@@ -78,7 +80,7 @@ class Utilities {
                     city = "Ovejas",
                     state = "Sucre",
                     startAt = "17 Dec, 2022",
-                    endsAt = "20 Dec, 2022"
+                    endsAt = "20 Dec, 2022",
                 ),
                 EventModel(
                     id = "XYZ",
@@ -89,7 +91,7 @@ class Utilities {
                     city = "Ovejas",
                     state = "Sucre",
                     startAt = "17 Dec, 2022",
-                    endsAt = "20 Dec, 2022"
+                    endsAt = "20 Dec, 2022",
                 ),
                 EventModel(
                     id = "XYZ",
@@ -100,8 +102,8 @@ class Utilities {
                     city = "Sincelejo",
                     state = "Sucre",
                     startAt = "17 Dec, 2022",
-                    endsAt = "20 Dec, 2022"
-                )
+                    endsAt = "20 Dec, 2022",
+                ),
 
             )
     }
