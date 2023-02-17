@@ -36,7 +36,7 @@ jobs:
           cat gradle-checksums.txt  
 
     - name: Setup gradlew cache
-    - uses: actions/cache@v3  
+      uses: actions/cache@v3  
       with:
           path: ~/.gradle
           key: gradle-${{ hashFiles('gradle-checksums.txt') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
