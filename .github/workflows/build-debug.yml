@@ -30,8 +30,14 @@ jobs:
     - name: Make gradlew executable
       run: chmod +x ./gradlew
 
-    - uses: actions/cache@v3
-        with:
+    - name: Generate Gradle checksums
+        run: |
+          find "." -name "gradle.lockfile" -type f | sort | xargs shasum  > gradle-checksums.txt
+          cat gradle-checksums.txt  
+
+    - name: Setup gradlew cache
+    - uses: actions/cache@v3  
+      with:
           path: ~/.gradle
           key: gradle-${{ hashFiles('gradle-checksums.txt') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: |
