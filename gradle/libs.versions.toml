@@ -59,6 +59,7 @@ kluent = "1.72"
 # Quality
 ktlint = "0.43.2"
 detekt = "1.22.0"
+secrets = "2.0.1"
 
 
 [libraries]
@@ -134,4 +135,5 @@ kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+secrets = { id = "com.google.android.libraries.mapsplatform.secrets-gradle-plugin", version.ref = "secrets" }
 

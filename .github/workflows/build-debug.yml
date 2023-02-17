@@ -29,7 +29,22 @@ jobs:
 
     - name: Make gradlew executable
       run: chmod +x ./gradlew
-      
+
+    - uses: actions/cache@v3
+        with:
+          path: ~/.gradle
+          key: gradle-${{ hashFiles('gradle-checksums.txt') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ hashFiles('gradle-checksums.txt') }}-  
+
+    - name: Setup local.properties
+        env:
+          APIURL: ${{ secrets.APIURL }}
+          APPID: ${{ secrets.APPID }}          
+          APIRESTKEY: ${{ secrets.APIRESTKEY }}
+        run: |
+          sed "s|APIRESTKEY|$APIRESTKEY|g; s|APPID|$APPID|g; s|APIURL|$APIURL|g" local.defaults.properties > local.properties
+
     - name: Build APK
       run: ./gradlew assembleDebug
 
