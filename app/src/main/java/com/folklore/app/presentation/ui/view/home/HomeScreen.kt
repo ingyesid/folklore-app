@@ -1,6 +1,5 @@
 package com.folklore.app.presentation.ui.view.home
 
-import android.util.Log
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -20,8 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
@@ -31,21 +28,26 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.folklore.app.R
-import com.folklore.app.presentation.ui.view.destinations.EventScreenDestination
-import com.folklore.app.presentation.utils.Utilities
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import com.folklore.app.domain.model.Event
 
+
+@Composable
+fun HomeWrapper(
+    onSearchTextChanged: (text: String) -> Unit,
+    onSearchOptionClick: () -> Unit,
+    onEventClick: (event: Event) -> Unit,
+){
+    HomeScreen()
+}
 @OptIn(ExperimentalMaterial3Api::class)
-@Destination
 @Composable
 fun HomeScreen(
-    homeViewModel: HomeViewModel = viewModel(),
-    navigator: DestinationsNavigator,
+    homeUiState: HomeUiState,
+    onSearchTextChanged: (text: String) -> Unit,
+    onSearchOptionClick: () -> Unit,
+    onEventClick: (event: Event) -> Unit,
 ) {
-    val homeUiState by homeViewModel.uiState.collectAsState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val collapsed = 16
     val expanded = 28
@@ -86,14 +88,14 @@ fun HomeScreen(
                 ),
                 value = homeUiState.searchBoxQuery,
                 keyboardActions = KeyboardActions(onSearch = {
-                    Log.d("Search action", "onClick")
+                    onSearchOptionClick()
                 }),
-                onValueChange = {
-                    homeViewModel.searchEvents(it)
+                onValueChange = { newText ->
+                    onSearchTextChanged(newText)
                 },
                 label = {
                     Text(
-                        text = "Search and filter",
+                        text = stringResource(R.string.label_search_and_filter),
                         style = MaterialTheme.typography.labelMedium,
                     )
                 },
@@ -102,25 +104,25 @@ fun HomeScreen(
                         painter = painterResource(id = R.drawable.tune_24dp),
                         contentDescription = "Filter Icon",
                         modifier = Modifier.clickable {
-                            Log.d("Filter Icon", "onClick")
+                            // TODO open filter screen
                         },
                     )
                 },
                 shape = RoundedCornerShape(50.dp),
             )
             EventsGroup(
-                header = "Popular",
+                header = stringResource(R.string.header_popular),
                 horizontally = true,
-                events = Utilities.popularDemoEvents,
-                onClicked = {
-                    navigator.navigate(EventScreenDestination(event = it))
+                events = homeUiState.popularEvents,
+                onClicked = { event ->
+                    onEventClick(event)
                 },
             )
             EventsGroup(
-                header = "Near you",
-                events = Utilities.demoEvents,
-                onClicked = {
-                    navigator.navigate(EventScreenDestination(event = it))
+                header = stringResource(R.string.header_near_you),
+                events = homeUiState.nearEvents,
+                onClicked = { event ->
+                    onEventClick(event)
                 },
             )
         }
@@ -130,5 +132,4 @@ fun HomeScreen(
 @Preview
 @Composable
 fun HomeScreenContentPreview() {
-//    HomeScreenContent()
 }

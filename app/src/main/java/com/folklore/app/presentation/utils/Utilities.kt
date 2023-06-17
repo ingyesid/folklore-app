@@ -1,11 +1,9 @@
 package com.folklore.app.presentation.utils
 
-import com.folklore.app.BuildConfig
 import com.folklore.app.presentation.model.EventModel
 
 class Utilities {
     companion object {
-        val key = BuildConfig.VERSION_CODE
         val popularDemoEvents =
             listOf(
                 EventModel(

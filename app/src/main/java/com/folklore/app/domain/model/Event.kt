@@ -13,6 +13,15 @@ data class Event(
     val likes: Int,
     val startAt: Date,
     val endsAt: Date,
-    val city: String,
-    val state: String,
-)
+    val location: EventLocation,
+    val status: EventStatus,
+) {
+    val isPopular: Boolean
+        get() = goingCount > 100
+}
+
+enum class EventStatus {
+    ACTIVE,
+    INACTIVE,
+    UNKNOWN,
+}

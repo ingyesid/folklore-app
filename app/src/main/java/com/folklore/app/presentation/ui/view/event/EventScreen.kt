@@ -31,25 +31,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.folklore.app.presentation.model.EventModel
-import com.folklore.app.presentation.utils.Utilities
-import com.ramcosta.composedestinations.annotation.Destination
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Destination
 @Composable
 fun EventScreen(
     event: EventModel,
     modifier: Modifier = Modifier,
-    // navigator: DestinationsNavigator,
+    onBackClick: () -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
-    val context = LocalContext.current
     Scaffold(
         topBar = {
             TopAppBar(title = {
@@ -57,17 +51,17 @@ fun EventScreen(
                     text = event.title,
                 )
             }, scrollBehavior = scrollBehavior, navigationIcon = {
-                    IconButton(onClick = {
-                        // navigator.navigateUp()
-                    }) {
-                        Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = "Go Back")
-                    }
-                })
+                IconButton(onClick = {
+                    onBackClick()
+                }) {
+                    Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = "Go Back")
+                }
+            })
         },
-        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection)
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
     ) { contentPadding ->
         Column(
-            modifier = Modifier.padding(contentPadding)
+            modifier = Modifier.padding(contentPadding),
         ) {
             AsyncImage(
                 modifier = Modifier.background(Color.White).fillMaxWidth().height(200.dp),
@@ -77,7 +71,7 @@ fun EventScreen(
             )
             Column(
                 modifier = Modifier.padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp)
+                verticalArrangement = Arrangement.spacedBy(8.dp),
             ) {
                 Row(
                     modifier = modifier.fillMaxWidth(),
@@ -88,7 +82,7 @@ fun EventScreen(
                         Icon(
                             imageVector = Icons.Outlined.Favorite,
                             contentDescription = "Likes Icon",
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
                         )
                         Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
@@ -101,7 +95,7 @@ fun EventScreen(
                         Icon(
                             imageVector = Icons.Outlined.Person,
                             contentDescription = "Going People Icon",
-                            modifier = Modifier.size(24.dp)
+                            modifier = Modifier.size(24.dp),
                         )
                         Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
@@ -113,11 +107,11 @@ fun EventScreen(
                 }
                 Row(
                     horizontalArrangement = Arrangement.Start,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Icon(
                         imageVector = Icons.Outlined.LocationOn,
-                        contentDescription = "Location Icon"
+                        contentDescription = "Location Icon",
                     )
                     Text(
                         text = "${event.city}, ${event.state}",
@@ -140,10 +134,4 @@ fun EventScreen(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun EventScreenPreview() {
-    EventScreen(event = Utilities.popularDemoEvents.first())
 }

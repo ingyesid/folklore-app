@@ -15,7 +15,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Favorite
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -28,18 +27,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.folklore.app.R
-import com.folklore.app.presentation.model.EventModel
-import com.folklore.app.presentation.utils.Utilities
+import com.folklore.app.presentation.ui.view.home.model.EventUiModel
 
 @Composable
 fun PopularEventItem(
-    event: EventModel,
+    event: EventUiModel,
     modifier: Modifier = Modifier,
-    onClicked: (EventModel) -> Unit
+    onClicked: (EventUiModel) -> Unit,
 ) {
     ElevatedCard(
         modifier = Modifier.width(220.dp).clickable {
@@ -48,7 +45,7 @@ fun PopularEventItem(
     ) {
         Column(
             modifier = modifier.fillMaxWidth(),
-            verticalArrangement = Arrangement.spacedBy(4.dp)
+            verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             AsyncImage(
                 modifier = Modifier.background(Color.White).fillMaxWidth().height(120.dp),
@@ -67,27 +64,27 @@ fun PopularEventItem(
             )
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = "${event.city}, ${event.state}",
+                text = "${event.location.city}, ${event.location.state}",
                 style = MaterialTheme.typography.labelMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = event.startAt,
+                text = event.startAt.toString(),
                 style = MaterialTheme.typography.labelSmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Row(
                 modifier = modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.End,
             ) {
                 TextButton(onClick = {}) {
                     Icon(
                         imageVector = Icons.Outlined.Favorite,
                         contentDescription = "Likes Icon",
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(16.dp),
                     )
                     Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                     Text(
@@ -100,7 +97,7 @@ fun PopularEventItem(
                     Icon(
                         imageVector = Icons.Outlined.Person,
                         contentDescription = "Going People Icon",
-                        modifier = Modifier.size(16.dp)
+                        modifier = Modifier.size(16.dp),
                     )
                     Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                     Text(
@@ -112,10 +109,4 @@ fun PopularEventItem(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun PopularEventItemPreview() {
-    PopularEventItem(Utilities.demoEvents.first(), onClicked = {})
 }

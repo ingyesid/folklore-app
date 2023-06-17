@@ -27,18 +27,16 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.folklore.app.R
-import com.folklore.app.presentation.model.EventModel
-import com.folklore.app.presentation.utils.Utilities
+import com.folklore.app.domain.model.Event
 
 @Composable
 fun EventItem(
-    event: EventModel,
+    event: Event,
     modifier: Modifier = Modifier,
-    onClicked: (EventModel) -> Unit
+    onClicked: (Event) -> Unit,
 ) {
     OutlinedCard(
         modifier = Modifier.clickable {
@@ -58,7 +56,7 @@ fun EventItem(
             )
             Column(
                 verticalArrangement = Arrangement.spacedBy(4.dp),
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
             ) {
                 Text(
                     text = event.title,
@@ -67,26 +65,26 @@ fun EventItem(
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = "${event.city}, ${event.state}",
+                    text = "${event.location.city}, ${event.location.state}",
                     style = MaterialTheme.typography.labelMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = event.startAt,
+                    text = event.startAt.toString(),
                     style = MaterialTheme.typography.labelSmall,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
                 Row(
                     modifier = modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.End,
                 ) {
                     TextButton(onClick = {}) {
                         Icon(
                             imageVector = Icons.Outlined.Favorite,
                             contentDescription = "Likes Icon",
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(16.dp),
                         )
                         Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
@@ -99,7 +97,7 @@ fun EventItem(
                         Icon(
                             imageVector = Icons.Outlined.Person,
                             contentDescription = "Going People Icon",
-                            modifier = Modifier.size(16.dp)
+                            modifier = Modifier.size(16.dp),
                         )
                         Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
@@ -112,13 +110,4 @@ fun EventItem(
             }
         }
     }
-}
-
-@Preview
-@Composable
-fun EventItemPreview() {
-    EventItem(
-        Utilities.demoEvents.first(),
-        onClicked = {}
-    )
 }
