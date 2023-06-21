@@ -4,5 +4,9 @@
     <string name="home_screen_title_collapsed">Join with upcoming events</string>
     <string name="header_near_you">Near you</string>
     <string name="header_popular">Popular</string>
+    <string name="tab_home">Home</string>
+    <string name="tab_favorites">Favorites</string>
     <string name="label_search_and_filter">Search and filter</string>
+    <string name="app_logo_description">App Logo</string>
+    <string name="search_icon_description">Search icon option</string>
 </resources>

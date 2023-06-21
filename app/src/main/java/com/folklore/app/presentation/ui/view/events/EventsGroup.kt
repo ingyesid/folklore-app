@@ -1,4 +1,4 @@
-package com.folklore.app.presentation.ui.view.home
+package com.folklore.app.presentation.ui.view.events
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -11,8 +11,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import com.folklore.app.domain.model.Event
-import com.folklore.app.presentation.ui.view.home.model.EventUiModel
+import com.folklore.app.presentation.model.EventUiModel
 
 @Composable
 fun EventsGroup(
@@ -20,7 +19,7 @@ fun EventsGroup(
     horizontally: Boolean = false,
     events: List<EventUiModel>,
     modifier: Modifier = Modifier,
-    onClicked: (Event) -> Unit,
+    onClicked: (EventUiModel) -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),

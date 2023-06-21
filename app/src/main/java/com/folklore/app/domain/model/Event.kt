@@ -17,7 +17,7 @@ data class Event(
     val status: EventStatus,
 ) {
     val isPopular: Boolean
-        get() = goingCount > 100
+        get() = goingCount > 50
 }
 
 enum class EventStatus {

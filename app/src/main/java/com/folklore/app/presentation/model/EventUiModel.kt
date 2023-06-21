@@ -1,4 +1,4 @@
-package com.folklore.app.presentation.ui.view.home.model
+package com.folklore.app.presentation.model
 
 data class EventUiModel(
     val id: String,
@@ -8,4 +8,5 @@ data class EventUiModel(
     val goingCount: Int,
     val likes: Int,
     val location: String,
+    val startDate: String,
 )

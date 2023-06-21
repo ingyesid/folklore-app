@@ -1,4 +1,4 @@
-package com.folklore.app.presentation.ui.view.home
+package com.folklore.app.presentation.ui.view.events
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,13 +30,13 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.folklore.app.R
-import com.folklore.app.domain.model.Event
+import com.folklore.app.presentation.model.EventUiModel
 
 @Composable
 fun EventItem(
-    event: Event,
+    event: EventUiModel,
     modifier: Modifier = Modifier,
-    onClicked: (Event) -> Unit,
+    onClicked: (EventUiModel) -> Unit,
 ) {
     OutlinedCard(
         modifier = Modifier.clickable {
@@ -65,17 +65,12 @@ fun EventItem(
                     overflow = TextOverflow.Ellipsis,
                 )
                 Text(
-                    text = "${event.location.city}, ${event.location.state}",
+                    text = event.location,
                     style = MaterialTheme.typography.labelMedium,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                 )
-                Text(
-                    text = event.startAt.toString(),
-                    style = MaterialTheme.typography.labelSmall,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+
                 Row(
                     modifier = modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.End,

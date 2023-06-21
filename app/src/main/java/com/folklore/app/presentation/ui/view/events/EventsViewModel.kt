@@ -1,10 +1,10 @@
-package com.folklore.app.presentation.ui.view.home
+package com.folklore.app.presentation.ui.view.events
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.folklore.app.domain.model.Resource
 import com.folklore.app.domain.usecase.GetAllEventsUseCase
+import com.folklore.app.presentation.mapper.EventMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -14,14 +14,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class EventsViewModel @Inject constructor(
     private val getAllEventsUseCase: GetAllEventsUseCase,
+    private val uiModelMapper: EventMapper,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(HomeUiState())
-
-    // Backing property to avoid state updates from other classes
-    val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
+    private val _uiState = MutableStateFlow(EventsUiState())
+    val uiState: StateFlow<EventsUiState> = _uiState.asStateFlow()
 
     init {
         getAllEvents()
@@ -29,23 +28,28 @@ class HomeViewModel @Inject constructor(
 
     fun getAllEvents() = viewModelScope.launch {
         getAllEventsUseCase().collect { resource ->
-            Log.d("HomeViewModel", "getAllEvents: $resource")
             when (resource) {
                 is Resource.Error -> {
                     _uiState.update { it.copy(loading = false) }
                 }
+
                 is Resource.Loading -> {
                     _uiState.update { it.copy(loading = true) }
                 }
+
                 is Resource.Success -> {
                     _uiState.update {
                         it.copy(
                             loading = false,
                             popularEvents = resource.data.filter { event ->
                                 event.isPopular
+                            }.map { event ->
+                                uiModelMapper.mapTo(event)
                             },
                             nearEvents = resource.data.filter { event ->
                                 !event.isPopular
+                            }.map { event ->
+                                uiModelMapper.mapTo(event)
                             },
                         )
                     }
@@ -54,9 +58,4 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun searchEvents(query: String) {
-        _uiState.update {
-            it.copy(searchBoxQuery = query)
-        }
-    }
 }

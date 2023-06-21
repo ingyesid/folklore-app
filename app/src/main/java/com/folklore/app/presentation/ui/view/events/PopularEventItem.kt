@@ -1,4 +1,4 @@
-package com.folklore.app.presentation.ui.view.home
+package com.folklore.app.presentation.ui.view.events
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -30,7 +30,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.folklore.app.R
-import com.folklore.app.presentation.ui.view.home.model.EventUiModel
+import com.folklore.app.presentation.model.EventUiModel
 
 @Composable
 fun PopularEventItem(
@@ -64,14 +64,14 @@ fun PopularEventItem(
             )
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = "${event.location.city}, ${event.location.state}",
+                text = event.location,
                 style = MaterialTheme.typography.labelMedium,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
-                text = event.startAt.toString(),
+                text = event.startDate,
                 style = MaterialTheme.typography.labelSmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,

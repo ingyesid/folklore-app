@@ -26,6 +26,10 @@ import com.folklore.app.domain.mapping.Mapper
 import com.folklore.app.domain.model.Event
 import com.folklore.app.domain.repository.EventsRepository
 import com.folklore.app.domain.usecase.GetAllEventsUseCase
+import com.folklore.app.domain.utils.ReadableTimeFormatter
+import com.folklore.app.presentation.mapper.EventMapper
+import com.folklore.app.presentation.model.EventUiModel
+import com.folklore.app.presentation.utils.DateStringFormatter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -48,6 +52,7 @@ import javax.inject.Singleton
 @Module
 object AppModule {
     private const val USER_PREFERENCES_FILE = "preferences"
+    private const val SERVER_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:s"
 
     @Singleton
     @Provides
@@ -86,7 +91,19 @@ object AppModule {
     @Provides
     @Singleton
     fun provideEventDtoMapper(): Mapper<EventDto, Event> {
-        return EventDtoMapper(SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss", Locale.US))
+        return EventDtoMapper(SimpleDateFormat(SERVER_DATE_FORMAT, Locale.US))
+    }
+
+    @Provides
+    @Singleton
+    fun provideEventMapper(formatter: ReadableTimeFormatter): Mapper<Event, EventUiModel> {
+        return EventMapper(formatter)
+    }
+
+    @Provides
+    @Singleton
+    fun provideReadableTimeFormatter(@ApplicationContext context: Context): ReadableTimeFormatter {
+        return DateStringFormatter(context)
     }
 
     @Provides

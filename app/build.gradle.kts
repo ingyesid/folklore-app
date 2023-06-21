@@ -57,6 +57,10 @@ android {
         }
     }
 }
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
+}
 
 dependencies {
     implementation(libs.androidx.corektx)
@@ -66,14 +70,15 @@ dependencies {
     implementation(libs.compose.preview)
     implementation(libs.compose.material3)
     implementation(libs.compose.material2)
+    implementation(libs.compose.navigation)
 
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     implementation(libs.hilt.android)
-    implementation(libs.hilt.compose)
+    implementation(libs.hilt.nav.compose)
     kapt(libs.hilt.kapt)
 
     implementation(libs.coroutines.android)

@@ -1,4 +1,4 @@
-package com.folklore.app.presentation.ui.view.home
+package com.folklore.app.presentation.ui.view.events
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -19,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.painterResource
@@ -28,25 +28,33 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.folklore.app.R
-import com.folklore.app.domain.model.Event
-
+import com.folklore.app.presentation.model.EventUiModel
 
 @Composable
-fun HomeWrapper(
-    onSearchTextChanged: (text: String) -> Unit,
+fun EventsScreen(
+    viewModel: EventsViewModel = hiltViewModel(),
+    onFilterOptionClick: () -> Unit,
     onSearchOptionClick: () -> Unit,
-    onEventClick: (event: Event) -> Unit,
-){
-    HomeScreen()
+    onEventClick: (event: EventUiModel) -> Unit,
+) {
+    val uiState = viewModel.uiState.collectAsState().value
+    EventsScreenContent(
+        uiState = uiState,
+        onFilterOptionClick = onFilterOptionClick,
+        onSearchOptionClick = onSearchOptionClick,
+        onEventClick = onEventClick,
+    )
 }
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
-    homeUiState: HomeUiState,
-    onSearchTextChanged: (text: String) -> Unit,
+fun EventsScreenContent(
+    uiState: EventsUiState,
+    onFilterOptionClick: () -> Unit,
     onSearchOptionClick: () -> Unit,
-    onEventClick: (event: Event) -> Unit,
+    onEventClick: (event: EventUiModel) -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     val collapsed = 16
@@ -81,18 +89,15 @@ fun HomeScreen(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             OutlinedTextField(
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth().clickable {
+                    onSearchOptionClick()
+                },
                 keyboardOptions = KeyboardOptions.Default.copy(
                     keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Search,
                 ),
-                value = homeUiState.searchBoxQuery,
-                keyboardActions = KeyboardActions(onSearch = {
-                    onSearchOptionClick()
-                }),
-                onValueChange = { newText ->
-                    onSearchTextChanged(newText)
-                },
+                value = "",
+                onValueChange = {},
                 label = {
                     Text(
                         text = stringResource(R.string.label_search_and_filter),
@@ -104,7 +109,7 @@ fun HomeScreen(
                         painter = painterResource(id = R.drawable.tune_24dp),
                         contentDescription = "Filter Icon",
                         modifier = Modifier.clickable {
-                            // TODO open filter screen
+                            onFilterOptionClick()
                         },
                     )
                 },
@@ -113,14 +118,14 @@ fun HomeScreen(
             EventsGroup(
                 header = stringResource(R.string.header_popular),
                 horizontally = true,
-                events = homeUiState.popularEvents,
+                events = uiState.popularEvents,
                 onClicked = { event ->
                     onEventClick(event)
                 },
             )
             EventsGroup(
                 header = stringResource(R.string.header_near_you),
-                events = homeUiState.nearEvents,
+                events = uiState.nearEvents,
                 onClicked = { event ->
                     onEventClick(event)
                 },
@@ -132,4 +137,24 @@ fun HomeScreen(
 @Preview
 @Composable
 fun HomeScreenContentPreview() {
+    EventsScreenContent(
+        uiState = EventsUiState(
+            loading = false,
+            popularEvents = listOf(
+                EventUiModel(
+                    id = "xyz",
+                    title = "Google i/o extended",
+                    shortDescription = "lorem ipsum bla",
+                    imageUrl = "https://io.google/2021/assets/io_social_asset.jpg",
+                    goingCount = 20,
+                    likes = 30,
+                    location = "Corozal, Sucre",
+                    startDate = "May 29 , 2034",
+                ),
+            ),
+        ),
+        onFilterOptionClick = { /*TODO*/ },
+        onSearchOptionClick = { /*TODO*/ },
+        onEventClick = {},
+    )
 }
