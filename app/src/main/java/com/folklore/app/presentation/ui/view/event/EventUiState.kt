@@ -5,19 +5,20 @@ import com.folklore.app.presentation.model.EventDetailsUiModel
 data class EventUiState(
     val loading: Boolean = false,
     val event: EventDetailsUiModel,
-){
-    companion object{
+) {
+    companion object {
         fun default() = EventUiState(
             loading = false,
             event = EventDetailsUiModel(
-                id = "xyz",
-                title = "Google i/o extended",
-                description = "lorem ipsum bla",
+                id = "",
+                title = "",
+                description = "",
                 imageUrl = "https://io.google/2021/assets/io_social_asset.jpg",
-                goingCount = 20,
-                likes = 30,
-                location = "Corozal, Sucre",
-                startDate = "May 29 , 2034",
+                goingCount = 0,
+                likes = 0,
+                location = "",
+                startDate = "",
+                endDate = "",
             )
         )
     }

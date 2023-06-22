@@ -40,6 +40,11 @@ class EventsRepositoryImpl @Inject constructor(
         }
     }
 
+    override fun getEvent(id: String): Flow<Resource<Event>> = flow {
+        emit(Resource.Loading())
+        emit(Resource.Success(localDataSource.getEvent(id)))
+    }
+
     override suspend fun updateEvent(event: Event) {
         localDataSource.updateEvent(event)
     }

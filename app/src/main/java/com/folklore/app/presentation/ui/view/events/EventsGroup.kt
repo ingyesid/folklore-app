@@ -10,8 +10,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.folklore.app.presentation.model.EventUiModel
+import com.folklore.app.presentation.utils.EventsPreviewProvider
 
 @Composable
 fun EventsGroup(
@@ -48,4 +51,16 @@ fun EventsGroup(
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun EventsGroupPreview(
+    @PreviewParameter(EventsPreviewProvider::class) event: EventUiModel,
+) {
+    EventsGroup(
+        header = "Popular",
+        events = listOf(event),
+        onClicked = {},
+    )
 }

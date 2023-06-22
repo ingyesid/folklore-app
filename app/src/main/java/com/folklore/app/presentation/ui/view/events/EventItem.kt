@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -43,12 +44,17 @@ fun EventItem(
             onClicked.invoke(event)
         },
     ) {
-        Row {
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(90.dp)
+        )
+        {
             AsyncImage(
                 modifier = Modifier
                     .background(Color.White)
                     .width(120.dp)
-                    .height(120.dp),
+                    .fillMaxHeight(),
                 model = event.imageUrl,
                 placeholder = painterResource(R.drawable.ic_launcher_foreground),
                 contentDescription = event.title,
@@ -79,7 +85,7 @@ fun EventItem(
                         Icon(
                             imageVector = Icons.Outlined.Favorite,
                             contentDescription = "Likes Icon",
-                            modifier = Modifier.size(16.dp),
+                            modifier = Modifier.size(10.dp),
                         )
                         Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                         Text(
@@ -92,7 +98,7 @@ fun EventItem(
                         Icon(
                             imageVector = Icons.Outlined.Person,
                             contentDescription = "Going People Icon",
-                            modifier = Modifier.size(16.dp),
+                            modifier = Modifier.size(10.dp),
                         )
                         Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                         Text(

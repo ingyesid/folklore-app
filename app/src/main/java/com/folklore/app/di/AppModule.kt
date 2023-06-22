@@ -27,7 +27,7 @@ import com.folklore.app.domain.model.Event
 import com.folklore.app.domain.repository.EventsRepository
 import com.folklore.app.domain.usecase.GetAllEventsUseCase
 import com.folklore.app.domain.utils.ReadableTimeFormatter
-import com.folklore.app.presentation.mapper.EventMapper
+import com.folklore.app.presentation.mapper.EventModelMapper
 import com.folklore.app.presentation.model.EventUiModel
 import com.folklore.app.presentation.utils.DateStringFormatter
 import dagger.Module
@@ -97,7 +97,7 @@ object AppModule {
     @Provides
     @Singleton
     fun provideEventMapper(formatter: ReadableTimeFormatter): Mapper<Event, EventUiModel> {
-        return EventMapper(formatter)
+        return EventModelMapper(formatter)
     }
 
     @Provides

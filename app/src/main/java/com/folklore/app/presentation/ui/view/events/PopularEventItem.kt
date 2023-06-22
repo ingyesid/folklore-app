@@ -27,10 +27,13 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.folklore.app.R
 import com.folklore.app.presentation.model.EventUiModel
+import com.folklore.app.presentation.utils.EventsPreviewProvider
 
 @Composable
 fun PopularEventItem(
@@ -39,7 +42,7 @@ fun PopularEventItem(
     onClicked: (EventUiModel) -> Unit,
 ) {
     ElevatedCard(
-        modifier = Modifier.width(220.dp).clickable {
+        modifier = Modifier.width(160.dp).clickable {
             onClicked.invoke(event)
         },
     ) {
@@ -48,7 +51,7 @@ fun PopularEventItem(
             verticalArrangement = Arrangement.spacedBy(4.dp),
         ) {
             AsyncImage(
-                modifier = Modifier.background(Color.White).fillMaxWidth().height(120.dp),
+                modifier = Modifier.background(Color.White).fillMaxWidth().height(80.dp),
                 model = event.imageUrl,
                 placeholder = painterResource(R.drawable.ic_launcher_foreground),
                 contentDescription = event.title,
@@ -58,20 +61,13 @@ fun PopularEventItem(
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 text = event.title,
-                style = MaterialTheme.typography.bodyLarge.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.Bold),
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
             Text(
                 modifier = Modifier.padding(horizontal = 8.dp),
                 text = event.location,
-                style = MaterialTheme.typography.labelMedium,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            Text(
-                modifier = Modifier.padding(horizontal = 8.dp),
-                text = event.startDate,
                 style = MaterialTheme.typography.labelSmall,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
@@ -84,12 +80,12 @@ fun PopularEventItem(
                     Icon(
                         imageVector = Icons.Outlined.Favorite,
                         contentDescription = "Likes Icon",
-                        modifier = Modifier.size(16.dp),
+                        modifier = Modifier.size(10.dp),
                     )
                     Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                     Text(
                         text = "${event.likes}",
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelSmall,
                         maxLines = 1,
                     )
                 }
@@ -97,16 +93,27 @@ fun PopularEventItem(
                     Icon(
                         imageVector = Icons.Outlined.Person,
                         contentDescription = "Going People Icon",
-                        modifier = Modifier.size(16.dp),
+                        modifier = Modifier.size(10.dp),
                     )
                     Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                     Text(
                         text = "${event.goingCount}",
-                        style = MaterialTheme.typography.labelLarge,
+                        style = MaterialTheme.typography.labelSmall,
                         maxLines = 1,
                     )
                 }
             }
         }
     }
+}
+
+@Preview
+@Composable
+fun PopularEventItemPreview(
+    @PreviewParameter(EventsPreviewProvider::class) event: EventUiModel,
+) {
+    PopularEventItem(
+        event = event,
+        onClicked = { },
+    )
 }

@@ -9,4 +9,6 @@ data class EventDetailsUiModel(
     val likes: Int,
     val location: String,
     val startDate: String,
+    val endDate: String,
+    val website: String = "",
 )

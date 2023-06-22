@@ -110,7 +110,7 @@ fun EventScreenContent(
                         modifier = modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.End,
 
-                    ) {
+                        ) {
                         TextButton(onClick = {}) {
                             Icon(
                                 imageVector = Icons.Outlined.Favorite,
@@ -185,6 +185,7 @@ fun EventScreenContentPreview() {
             likes = 30,
             location = "Corozal, Sucre",
             startDate = "May 29 , 2034",
+            endDate = "May 29 , 2034",
         ),
         onBackClick = { },
         onToggleFavorite = {},

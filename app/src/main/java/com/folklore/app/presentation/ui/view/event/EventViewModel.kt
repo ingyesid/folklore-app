@@ -1,18 +1,60 @@
 package com.folklore.app.presentation.ui.view.event
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.folklore.app.domain.usecase.GetAllEventsUseCase
-import com.folklore.app.presentation.mapper.EventMapper
+import androidx.lifecycle.viewModelScope
+import com.folklore.app.domain.model.Resource
+import com.folklore.app.domain.usecase.GetEventByIdUseCase
+import com.folklore.app.presentation.mapper.EventDetailsModelMapper
+import com.folklore.app.presentation.mapper.EventModelMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
 class EventViewModel @Inject constructor(
-    private val getAllEventsUseCase: GetAllEventsUseCase,
-    private val uiModelMapper: EventMapper,
+    savedStateHandle: SavedStateHandle,
+    private val getEventByIdUseCase: GetEventByIdUseCase,
+    private val uiModelMapper: EventDetailsModelMapper,
 ) : ViewModel() {
+
+    private val eventId: String = checkNotNull(
+        savedStateHandle["eventId"],
+    )
+
     private val _uiState = MutableStateFlow(EventUiState.default())
     val uiState: StateFlow<EventUiState> = _uiState
+
+
+    init {
+        loadEvent()
+    }
+
+    private fun loadEvent() {
+        viewModelScope.launch {
+            getEventByIdUseCase(eventId).collect { resource ->
+                when (resource) {
+                    is Resource.Error -> {
+                        _uiState.update { it.copy(loading = false) }
+                    }
+
+                    is Resource.Loading -> {
+                        _uiState.update { it.copy(loading = true) }
+                    }
+
+                    is Resource.Success -> {
+                        _uiState.update {
+                            it.copy(
+                                loading = false,
+                                event = uiModelMapper.mapTo(resource.data)
+                            )
+                        }
+                    }
+                }
+            }
+        }
+    }
 }

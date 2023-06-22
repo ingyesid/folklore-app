@@ -16,8 +16,11 @@ class EventsLocalDataSourceImpl @Inject constructor(
         return entityMapper.mapCollection(eventsDao.getAllEvents(""))
     }
 
+    override suspend fun getEvent(id: String): Event {
+        return entityMapper.mapTo(eventsDao.getEvent(id))
+    }
+
     override suspend fun saveEvents(events: List<Event>) {
-        Log.d("EventsLocalDataSource", "saveEvents: $events")
         eventsDao.saveEvents(events.map { event -> entityMapper.reverseTransform(event) })
     }
 

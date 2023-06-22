@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.folklore.app.domain.model.Resource
 import com.folklore.app.domain.usecase.GetAllEventsUseCase
-import com.folklore.app.presentation.mapper.EventMapper
+import com.folklore.app.presentation.mapper.EventModelMapper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class EventsViewModel @Inject constructor(
     private val getAllEventsUseCase: GetAllEventsUseCase,
-    private val uiModelMapper: EventMapper,
+    private val uiModelMapper: EventModelMapper,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(EventsUiState())
@@ -26,7 +26,7 @@ class EventsViewModel @Inject constructor(
         getAllEvents()
     }
 
-    fun getAllEvents() = viewModelScope.launch {
+    private fun getAllEvents() = viewModelScope.launch {
         getAllEventsUseCase().collect { resource ->
             when (resource) {
                 is Resource.Error -> {

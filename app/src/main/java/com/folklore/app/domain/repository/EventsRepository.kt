@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.Flow
 interface EventsRepository {
 
     fun getAllEvents(): Flow<Resource<List<Event>>>
+    fun getEvent(id: String): Flow<Resource<Event>>
 
     suspend fun updateEvent(event: Event)
 }
