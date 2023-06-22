@@ -26,6 +26,7 @@ corektx = "1.10.1"
 datastore = "1.0.0"
 glance = "1.0.0-beta01"
 runtime_ktx = "2.6.1"
+splash = "1.0.1"
 
 # Compose
 compose = "1.4.3"
@@ -75,6 +76,7 @@ androidx_runtimeKtx = { module = "androidx.lifecycle:lifecycle-runtime-ktx", ver
 androidx_corektx = { module = "androidx.core:core-ktx", version.ref = "corektx" }
 androidx_datastore = { module = "androidx.datastore:datastore-preferences", version.ref = "datastore" }
 androidx_glance = { module = "androidx.glance:glance-appwidget", version.ref = "glance" }
+androidx_splash = { module = "androidx.core:core-splashscreen", version.ref = "splash" }
 
 # Compose
 compose_ui = { module = "androidx.compose.ui:ui", version.ref = "compose" }

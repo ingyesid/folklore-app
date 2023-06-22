@@ -65,6 +65,7 @@ kapt {
 dependencies {
     implementation(libs.androidx.corektx)
     implementation(libs.androidx.runtimeKtx)
+    implementation(libs.androidx.splash)
     implementation(libs.compose.activity)
     implementation(libs.compose.ui)
     implementation(libs.compose.preview)
