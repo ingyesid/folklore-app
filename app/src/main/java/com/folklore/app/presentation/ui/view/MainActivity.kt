@@ -18,7 +18,7 @@ class MainActivity : ComponentActivity() {
         WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             FolkloreTheme {
-                AppNavGraph(this)
+                AppNavGraph()
             }
         }
     }

@@ -12,7 +12,7 @@ class EventsLocalDataSourceImpl @Inject constructor(
     private val eventsDao: EventDao,
     private val entityMapper: Mapper<EventEntity, Event>,
 ) : EventsLocalDataSource {
-    override suspend fun getEvents(): List<Event> {
+    override suspend fun getAllEvents(): List<Event> {
         return entityMapper.mapCollection(eventsDao.getAllEvents(""))
     }
 
@@ -26,5 +26,9 @@ class EventsLocalDataSourceImpl @Inject constructor(
 
     override suspend fun updateEvent(event: Event) {
         eventsDao.updateEvent(entityMapper.reverseTransform(event))
+    }
+
+    override suspend fun searchEvents(query: String): List<Event> {
+        return entityMapper.mapCollection(eventsDao.getAllEvents(query))
     }
 }

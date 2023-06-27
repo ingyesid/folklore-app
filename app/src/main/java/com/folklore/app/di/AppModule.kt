@@ -27,8 +27,12 @@ import com.folklore.app.domain.model.Event
 import com.folklore.app.domain.repository.EventsRepository
 import com.folklore.app.domain.usecase.GetAllEventsUseCase
 import com.folklore.app.domain.utils.ReadableTimeFormatter
+import com.folklore.app.presentation.mapper.EventDetailsModelMapper
 import com.folklore.app.presentation.mapper.EventModelMapper
+import com.folklore.app.presentation.mapper.SearchResultModelMapper
+import com.folklore.app.presentation.model.EventDetailsUiModel
 import com.folklore.app.presentation.model.EventUiModel
+import com.folklore.app.presentation.model.SearchResultModel
 import com.folklore.app.presentation.utils.DateStringFormatter
 import dagger.Module
 import dagger.Provides
@@ -98,6 +102,18 @@ object AppModule {
     @Singleton
     fun provideEventMapper(formatter: ReadableTimeFormatter): Mapper<Event, EventUiModel> {
         return EventModelMapper(formatter)
+    }
+
+    @Provides
+    @Singleton
+    fun provideSearchResultsMapper(): Mapper<Event, SearchResultModel> {
+        return SearchResultModelMapper()
+    }
+
+    @Provides
+    @Singleton
+    fun provideEventDetailsMapper(formatter: ReadableTimeFormatter): Mapper<Event, EventDetailsUiModel> {
+        return EventDetailsModelMapper(formatter)
     }
 
     @Provides

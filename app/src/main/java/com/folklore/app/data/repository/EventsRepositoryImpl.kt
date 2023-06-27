@@ -19,7 +19,7 @@ class EventsRepositoryImpl @Inject constructor(
 
     override fun getAllEvents(): Flow<Resource<List<Event>>> = flow {
         emit(Resource.Loading())
-        val cachedEvents = localDataSource.getEvents()
+        val cachedEvents = localDataSource.getAllEvents()
         if (cachedEvents.isNotEmpty()) {
             emit(Resource.Success(cachedEvents))
         }
@@ -27,7 +27,7 @@ class EventsRepositoryImpl @Inject constructor(
         if (remoteResult.isSuccess) {
             val events = remoteResult.getOrNull()?.results ?: emptyList()
             localDataSource.saveEvents(eventDtoMapper.mapCollection(events))
-            emit(Resource.Success(localDataSource.getEvents()))
+            emit(Resource.Success(localDataSource.getAllEvents()))
         } else {
             if (cachedEvents.isEmpty()) {
                 emit(
@@ -38,6 +38,10 @@ class EventsRepositoryImpl @Inject constructor(
                 )
             }
         }
+    }
+
+    override suspend fun searchEvents(query: String): List<Event> {
+        return localDataSource.searchEvents(query)
     }
 
     override fun getEvent(id: String): Flow<Resource<Event>> = flow {

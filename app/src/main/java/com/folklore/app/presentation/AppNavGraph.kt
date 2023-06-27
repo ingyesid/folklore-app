@@ -1,7 +1,6 @@
 package com.folklore.app.presentation
 
 import android.app.Activity
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -14,10 +13,11 @@ import androidx.navigation.navArgument
 import com.folklore.app.presentation.ui.view.MainScreen
 import com.folklore.app.presentation.ui.view.event.EventScreen
 import com.folklore.app.presentation.ui.view.event.EventViewModel
+import com.folklore.app.presentation.ui.view.search.SearchScreen
+import com.folklore.app.presentation.ui.view.search.SearchViewModel
 
 @Composable
 fun AppNavGraph(
-    activity: Activity,
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
 ) {
@@ -31,7 +31,9 @@ fun AppNavGraph(
                 onEventClick = { eventId ->
                     navController.navigate("event/$eventId")
                 },
-                onSearchClick = {},
+                onSearchClick = {
+                    navController.navigate(AppDestinations.SEARCH)
+                },
             )
         }
         composable(
@@ -47,7 +49,16 @@ fun AppNavGraph(
             )
         }
         composable(AppDestinations.SEARCH) {
-            //show search screen
+            val viewModel = hiltViewModel<SearchViewModel>()
+            SearchScreen(
+                viewModel,
+                onEventClick = { eventId ->
+                    navController.navigate("event/$eventId")
+                },
+                onClose = {
+                    navController.popBackStack()
+                },
+            )
         }
     }
 }
