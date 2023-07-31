@@ -8,7 +8,6 @@ class EventsPreviewProvider : PreviewParameterProvider<EventUiModel> {
         EventUiModel(
             id = "xyz",
             title = "Google i/o extended",
-            shortDescription = "lorem ipsum bla",
             imageUrl = "https://io.google/2021/assets/io_social_asset.jpg",
             goingCount = 20,
             likes = 30,

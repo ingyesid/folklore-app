@@ -6,6 +6,7 @@ import retrofit2.http.GET
 
 interface FolkloreAPI {
 
-    @GET("classes/Event")
+    @GET("" +
+            "classes/Event")
     suspend fun getAllEvents(): Response<EventsResponse>
 }

@@ -5,6 +5,7 @@ import com.folklore.app.domain.datasource.EventsLocalDataSource
 import com.folklore.app.domain.datasource.EventsRemoteDataSource
 import com.folklore.app.domain.mapping.Mapper
 import com.folklore.app.domain.model.Event
+import com.folklore.app.domain.model.Favorite
 import com.folklore.app.domain.model.Resource
 import com.folklore.app.domain.repository.EventsRepository
 import kotlinx.coroutines.flow.Flow
@@ -46,10 +47,19 @@ class EventsRepositoryImpl @Inject constructor(
 
     override fun getEvent(id: String): Flow<Resource<Event>> = flow {
         emit(Resource.Loading())
-        emit(Resource.Success(localDataSource.getEvent(id)))
+        val event = localDataSource.getEvent(id)
+        if (event != null) {
+            emit(Resource.Success(event))
+        } else {
+            emit(Resource.Error("Not found"))
+        }
     }
 
     override suspend fun updateEvent(event: Event) {
         localDataSource.updateEvent(event)
+    }
+
+    override fun getAllFavorites(): Flow<List<Favorite>> {
+        return localDataSource.getFavorites()
     }
 }

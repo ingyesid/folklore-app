@@ -10,12 +10,15 @@ import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
 import com.folklore.app.BuildConfig
 import com.folklore.app.data.database.EventDao
+import com.folklore.app.data.database.FavoriteDao
 import com.folklore.app.data.database.FolkloreDatabase
 import com.folklore.app.data.database.model.EventEntity
+import com.folklore.app.data.database.model.FavoriteEntity
 import com.folklore.app.data.datasource.EventsAPIDataSourceImpl
 import com.folklore.app.data.datasource.EventsLocalDataSourceImpl
 import com.folklore.app.data.mapper.EventDtoMapper
 import com.folklore.app.data.mapper.EventEntityMapper
+import com.folklore.app.data.mapper.FavoriteEntityMapper
 import com.folklore.app.data.remote.AuthHeaderInterceptor
 import com.folklore.app.data.remote.FolkloreAPI
 import com.folklore.app.data.remote.model.EventDto
@@ -24,14 +27,18 @@ import com.folklore.app.domain.datasource.EventsLocalDataSource
 import com.folklore.app.domain.datasource.EventsRemoteDataSource
 import com.folklore.app.domain.mapping.Mapper
 import com.folklore.app.domain.model.Event
+import com.folklore.app.domain.model.Favorite
 import com.folklore.app.domain.repository.EventsRepository
 import com.folklore.app.domain.usecase.GetAllEventsUseCase
+import com.folklore.app.domain.usecase.GetAllFavoritesUseCase
 import com.folklore.app.domain.utils.ReadableTimeFormatter
 import com.folklore.app.presentation.mapper.EventDetailsModelMapper
 import com.folklore.app.presentation.mapper.EventModelMapper
+import com.folklore.app.presentation.mapper.FavoriteUiModelMapper
 import com.folklore.app.presentation.mapper.SearchResultModelMapper
 import com.folklore.app.presentation.model.EventDetailsUiModel
 import com.folklore.app.presentation.model.EventUiModel
+import com.folklore.app.presentation.model.FavoriteEventUiModel
 import com.folklore.app.presentation.model.SearchResultModel
 import com.folklore.app.presentation.utils.DateStringFormatter
 import dagger.Module
@@ -77,19 +84,32 @@ object AppModule {
             context,
             FolkloreDatabase::class.java,
             "folklore.db",
-        ).build()
+        ).fallbackToDestructiveMigration()
+            .build()
     }
 
     @Provides
     @Singleton
     fun provideEventsDAO(database: FolkloreDatabase): EventDao {
-        return database.dao
+        return database.eventDao
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoritesDAO(database: FolkloreDatabase): FavoriteDao {
+        return database.favoriteDao
     }
 
     @Provides
     @Singleton
     fun provideEntityMapper(): Mapper<EventEntity, Event> {
         return EventEntityMapper()
+    }
+
+    @Provides
+    @Singleton
+    fun provideFavoriteEntityMapper(): Mapper<FavoriteEntity, Favorite> {
+        return FavoriteEntityMapper()
     }
 
     @Provides
@@ -112,6 +132,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideFavoritesUiModelMapper(): Mapper<Favorite, FavoriteEventUiModel> {
+        return FavoriteUiModelMapper()
+    }
+
+    @Provides
+    @Singleton
     fun provideEventDetailsMapper(formatter: ReadableTimeFormatter): Mapper<Event, EventDetailsUiModel> {
         return EventDetailsModelMapper(formatter)
     }
@@ -127,10 +153,14 @@ object AppModule {
     fun provideEventsLocalDataSource(
         dao: EventDao,
         mapper: Mapper<EventEntity, Event>,
+        favoritesDao: FavoriteDao,
+        favoritesMapper: Mapper<FavoriteEntity, Favorite>,
     ): EventsLocalDataSource {
         return EventsLocalDataSourceImpl(
             eventsDao = dao,
             entityMapper = mapper,
+            favoritesDao = favoritesDao,
+            favEntityMapper = favoritesMapper
         )
     }
 
@@ -164,6 +194,12 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideGetAllFavoritesUseCase(repository: EventsRepository): GetAllFavoritesUseCase {
+        return GetAllFavoritesUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
     fun provideFolkloreAPI(okHttpClient: OkHttpClient): FolkloreAPI {
         return Retrofit.Builder()
             .baseUrl(BuildConfig.apiUrl)
@@ -186,4 +222,5 @@ object AppModule {
                     level = HttpLoggingInterceptor.Level.BODY
                 },
             ).build()
+
 }

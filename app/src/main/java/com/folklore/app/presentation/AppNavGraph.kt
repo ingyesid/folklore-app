@@ -1,6 +1,5 @@
 package com.folklore.app.presentation
 
-import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -37,7 +36,7 @@ fun AppNavGraph(
             )
         }
         composable(
-            AppDestinations.MOVIE_DETAIL,
+            AppDestinations.EVENT_DETAIL,
             arguments = listOf(navArgument("eventId") { type = NavType.StringType }),
         ) {
             val viewModel = hiltViewModel<EventViewModel>()
@@ -65,6 +64,6 @@ fun AppNavGraph(
 
 object AppDestinations {
     const val MAIN = "home"
-    const val MOVIE_DETAIL = "event/{eventId}"
+    const val EVENT_DETAIL = "event/{eventId}"
     const val SEARCH = "search"
 }

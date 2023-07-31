@@ -1,6 +1,7 @@
 package com.folklore.app.domain.repository
 
 import com.folklore.app.domain.model.Event
+import com.folklore.app.domain.model.Favorite
 import com.folklore.app.domain.model.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -11,4 +12,5 @@ interface EventsRepository {
     fun getEvent(id: String): Flow<Resource<Event>>
 
     suspend fun updateEvent(event: Event)
+    fun getAllFavorites(): Flow<List<Favorite>>
 }

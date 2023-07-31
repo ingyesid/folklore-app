@@ -11,7 +11,7 @@ class EventsAPIDataSourceImpl(
     override suspend fun getEvents(): Result<EventsResponse> {
         return try {
             val apiResponse = folkloreAPI.getAllEvents()
-            if (apiResponse.isSuccessful) {
+            if (apiResponse.isSuccessful && apiResponse.body() != null) {
                 Result.success(apiResponse.body()!!)
             } else {
                 Result.failure(Exception(apiResponse.errorBody().toString()))

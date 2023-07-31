@@ -20,7 +20,7 @@ interface EventDao {
     suspend fun getAllEvents(query: String): List<EventEntity>
 
     @Query("SELECT * FROM events WHERE id = :id LIMIT 1")
-    suspend fun getEvent(id: String): EventEntity
+    suspend fun getEvent(id: String): EventEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun saveEvents(events: List<EventEntity>)

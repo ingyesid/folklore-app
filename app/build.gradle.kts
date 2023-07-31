@@ -92,8 +92,9 @@ dependencies {
     implementation(libs.moshi.retrofit)
 
     testImplementation(libs.test.junit)
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kluent)
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockk.android)
     testImplementation(libs.coroutines.test)
 
     androidTestImplementation(libs.test.junitext)

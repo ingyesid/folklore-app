@@ -14,7 +14,6 @@ class EventModelMapper @Inject constructor(
         return EventUiModel(
             title = value.title,
             id = value.id,
-            shortDescription = value.shortDescription,
             goingCount = value.goingCount,
             likes = value.likes,
             imageUrl = value.imageUrl,

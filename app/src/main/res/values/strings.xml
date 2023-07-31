@@ -14,4 +14,5 @@
     <string name="empty_search_results_subtitle">Please try a different search query…</string>
     <string name="clear_query_button_description">Clear Search Query</string>
     <string name="close_button_description">Close Button</string>
+    <string name="favorites_screen_title">My Favorites</string>
 </resources>
