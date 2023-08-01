@@ -12,5 +12,11 @@ interface EventsRepository {
     fun getEvent(id: String): Flow<Resource<Event>>
 
     suspend fun updateEvent(event: Event)
+
     fun getAllFavorites(): Flow<List<Favorite>>
+
+    suspend fun isFavorite(event: Event): Boolean
+
+    suspend fun addToFavorite(event: Event)
+    suspend fun removeFromFavorites(event: Event)
 }

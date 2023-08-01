@@ -45,6 +45,12 @@ fun AppNavGraph(
                 onBackClick = {
                     navController.popBackStack()
                 },
+                onAddToFavoritesClick = {
+                    viewModel.addToFavorites()
+                },
+                onRemoveFromFavoritesClick = {
+                    viewModel.removeFromFavorites()
+                }
             )
         }
         composable(AppDestinations.SEARCH) {

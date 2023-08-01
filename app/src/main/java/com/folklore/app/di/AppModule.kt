@@ -18,6 +18,7 @@ import com.folklore.app.data.datasource.EventsAPIDataSourceImpl
 import com.folklore.app.data.datasource.EventsLocalDataSourceImpl
 import com.folklore.app.data.mapper.EventDtoMapper
 import com.folklore.app.data.mapper.EventEntityMapper
+import com.folklore.app.data.mapper.EventToFavoriteEntityMapper
 import com.folklore.app.data.mapper.FavoriteEntityMapper
 import com.folklore.app.data.remote.AuthHeaderInterceptor
 import com.folklore.app.data.remote.FolkloreAPI
@@ -29,8 +30,11 @@ import com.folklore.app.domain.mapping.Mapper
 import com.folklore.app.domain.model.Event
 import com.folklore.app.domain.model.Favorite
 import com.folklore.app.domain.repository.EventsRepository
+import com.folklore.app.domain.usecase.AddFavoriteUseCase
+import com.folklore.app.domain.usecase.CheckIfEventIsFavoriteUseCase
 import com.folklore.app.domain.usecase.GetAllEventsUseCase
 import com.folklore.app.domain.usecase.GetAllFavoritesUseCase
+import com.folklore.app.domain.usecase.RemoveFromFavoriteUseCase
 import com.folklore.app.domain.utils.ReadableTimeFormatter
 import com.folklore.app.presentation.mapper.EventDetailsModelMapper
 import com.folklore.app.presentation.mapper.EventModelMapper
@@ -84,8 +88,7 @@ object AppModule {
             context,
             FolkloreDatabase::class.java,
             "folklore.db",
-        ).fallbackToDestructiveMigration()
-            .build()
+        ).fallbackToDestructiveMigration().build()
     }
 
     @Provides
@@ -110,6 +113,12 @@ object AppModule {
     @Singleton
     fun provideFavoriteEntityMapper(): Mapper<FavoriteEntity, Favorite> {
         return FavoriteEntityMapper()
+    }
+
+    @Provides
+    @Singleton
+    fun provideEventToFavoriteEntityMapper(dateFormatter: ReadableTimeFormatter): Mapper<Event, FavoriteEntity> {
+        return EventToFavoriteEntityMapper(dateFormatter)
     }
 
     @Provides
@@ -154,13 +163,15 @@ object AppModule {
         dao: EventDao,
         mapper: Mapper<EventEntity, Event>,
         favoritesDao: FavoriteDao,
-        favoritesMapper: Mapper<FavoriteEntity, Favorite>,
+        favoriteEntityMapper: Mapper<FavoriteEntity, Favorite>,
+        eventToFavoriteMapper: Mapper<Event, FavoriteEntity>,
     ): EventsLocalDataSource {
         return EventsLocalDataSourceImpl(
             eventsDao = dao,
             entityMapper = mapper,
             favoritesDao = favoritesDao,
-            favEntityMapper = favoritesMapper
+            favEntityMapper = favoriteEntityMapper,
+            eventToFavoriteMapper = eventToFavoriteMapper
         )
     }
 
@@ -200,27 +211,39 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideCheckIfEventIsFavoriteUseCase(repository: EventsRepository): CheckIfEventIsFavoriteUseCase {
+        return CheckIfEventIsFavoriteUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideAddFavoriteUseCase(repository: EventsRepository): AddFavoriteUseCase {
+        return AddFavoriteUseCase(repository)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRemoveFromFavoriteUseCase(repository: EventsRepository): RemoveFromFavoriteUseCase {
+        return RemoveFromFavoriteUseCase(repository)
+    }
+
+
+    @Provides
+    @Singleton
     fun provideFolkloreAPI(okHttpClient: OkHttpClient): FolkloreAPI {
-        return Retrofit.Builder()
-            .baseUrl(BuildConfig.apiUrl)
-            .addConverterFactory(MoshiConverterFactory.create())
-            .client(okHttpClient)
-            .build()
+        return Retrofit.Builder().baseUrl(BuildConfig.apiUrl)
+            .addConverterFactory(MoshiConverterFactory.create()).client(okHttpClient).build()
             .create()
     }
 
     @Provides
     @Singleton
-    fun provideOkHttp(): OkHttpClient =
-        OkHttpClient.Builder()
-            .callTimeout(45L, TimeUnit.MINUTES)
-            .connectTimeout(45L, TimeUnit.MINUTES)
-            .readTimeout(45L, TimeUnit.MINUTES)
-            .addInterceptor(AuthHeaderInterceptor())
-            .addInterceptor(
-                HttpLoggingInterceptor().apply {
-                    level = HttpLoggingInterceptor.Level.BODY
-                },
-            ).build()
+    fun provideOkHttp(): OkHttpClient = OkHttpClient.Builder().callTimeout(45L, TimeUnit.MINUTES)
+        .connectTimeout(45L, TimeUnit.MINUTES).readTimeout(45L, TimeUnit.MINUTES)
+        .addInterceptor(AuthHeaderInterceptor()).addInterceptor(
+            HttpLoggingInterceptor().apply {
+                level = HttpLoggingInterceptor.Level.BODY
+            },
+        ).build()
 
 }

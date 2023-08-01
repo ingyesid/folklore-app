@@ -2,11 +2,16 @@ package com.folklore.app.presentation.ui.view.favorites
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -17,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.folklore.app.R
 import com.folklore.app.presentation.model.EventUiModel
@@ -31,7 +37,7 @@ fun FavoritesScreen(
     val uiState = viewModel.uiState.collectAsState().value
     FavoritesScreenContent(
         uiState = uiState,
-        onFavoriteEventClick = { onFavoriteEventClick },
+        onFavoriteEventClick = onFavoriteEventClick,
     )
 }
 
@@ -41,25 +47,17 @@ fun FavoritesScreenContent(
     uiState: FavoritesUiState,
     onFavoriteEventClick: (event: FavoriteEventUiModel) -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        text = stringResource(id = R.string.favorites_screen_title),
-                        maxLines = 2,
-                    )
-                },
+    if (uiState.loading) {
+        Box(modifier = Modifier.fillMaxSize()) {
+            CircularProgressIndicator(
+                modifier = Modifier.then(Modifier.size(32.dp))
             )
-        },
-    ) { contentPadding ->
-        if (uiState.loading) {
-            Box(modifier = Modifier.padding(contentPadding)) {
-
-            }
-        } else {
+        }
+    } else {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(text = stringResource(id = R.string.favorites_screen_title), fontSize = 24.sp)
+            Spacer(modifier = Modifier.size(24.dp))
             LazyColumn(
-                modifier = Modifier.padding(contentPadding),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(vertical = 8.dp),
             ) {
@@ -78,7 +76,7 @@ fun FavoritesScreenContent(
     }
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 fun FavoritesScreenContentPreview() {
     FavoritesScreenContent(
@@ -105,7 +103,7 @@ fun FavoritesScreenContentPreview() {
     )
 }
 
-@Preview
+@Preview(showSystemUi = true)
 @Composable
 fun FavoritesScreenContentLoadingPreview() {
     FavoritesScreenContent(

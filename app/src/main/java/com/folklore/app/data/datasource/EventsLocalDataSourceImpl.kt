@@ -19,6 +19,7 @@ class EventsLocalDataSourceImpl @Inject constructor(
     private val favoritesDao: FavoriteDao,
     private val entityMapper: Mapper<EventEntity, Event>,
     private val favEntityMapper: Mapper<FavoriteEntity, Favorite>,
+    private val eventToFavoriteMapper: Mapper<Event, FavoriteEntity>,
 ) : EventsLocalDataSource {
     override suspend fun getAllEvents(): List<Event> {
         return entityMapper.mapCollection(eventsDao.getAllEvents(""))
@@ -41,13 +42,24 @@ class EventsLocalDataSourceImpl @Inject constructor(
         eventsDao.updateEvent(entityMapper.reverseTransform(event))
     }
 
+    override suspend fun searchEvents(query: String): List<Event> {
+        return entityMapper.mapCollection(eventsDao.getAllEvents(query))
+    }
+
     override fun getFavorites(): Flow<List<Favorite>> =
         favoritesDao.getAllFavorites().mapLatest {
             it.map { entity -> favEntityMapper.mapTo(entity) }
         }
 
 
-    override suspend fun searchEvents(query: String): List<Event> {
-        return entityMapper.mapCollection(eventsDao.getAllEvents(query))
+    override suspend fun isFavorite(event: Event) = favoritesDao.getFavorite(event.id) != null
+
+    override suspend fun addToFavorites(event: Event) {
+        favoritesDao.addFavorite(eventToFavoriteMapper.mapTo(event))
     }
+
+    override suspend fun removeFromFavorites(event: Event) {
+        favoritesDao.removeFavorite(event.id)
+    }
+
 }

@@ -17,4 +17,7 @@ interface EventsLocalDataSource {
     suspend fun updateEvent(event: Event)
 
     fun getFavorites(): Flow<List<Favorite>>
+    suspend fun isFavorite(event: Event): Boolean
+    suspend fun addToFavorites(event: Event)
+    suspend fun removeFromFavorites(event: Event)
 }

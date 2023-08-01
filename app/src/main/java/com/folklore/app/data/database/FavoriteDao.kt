@@ -20,6 +20,15 @@ interface FavoriteDao {
     )
     fun getAllFavorites(): Flow<List<FavoriteEntity>>
 
+
+    @Language("RoomSql")
+    @Query(
+        """
+            SELECT * FROM favorites WHERE id = :id
+        """,
+    )
+    suspend fun getFavorite(id: String): FavoriteEntity?
+
     @Query(
         """
         DELETE  FROM favorites WHERE id = :eventId 
@@ -27,7 +36,7 @@ interface FavoriteDao {
     )
     suspend fun removeFavorite(eventId: String)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addFavorite(event: FavoriteEntity)
 
 }

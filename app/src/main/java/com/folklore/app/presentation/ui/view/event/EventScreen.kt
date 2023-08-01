@@ -12,7 +12,8 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
 import androidx.compose.material.icons.rounded.ArrowBack
@@ -41,18 +42,23 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.folklore.app.presentation.model.EventDetailsUiModel
+import com.folklore.app.presentation.model.FavoriteEventUiModel
 
 @Composable
 fun EventScreen(
     viewModel: EventViewModel,
     onBackClick: () -> Unit,
+    onAddToFavoritesClick: () -> Unit,
+    onRemoveFromFavoritesClick: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsState()
     EventScreenContent(
         isLoading = uiState.loading,
         event = uiState.event,
+        isFavorite = uiState.isFavorite,
         onBackClick = { onBackClick() },
-        onToggleFavorite = {},
+        onAddToFavoritesClick = onAddToFavoritesClick,
+        onRemoveFromFavoritesClick = onRemoveFromFavoritesClick,
     )
 }
 
@@ -60,10 +66,12 @@ fun EventScreen(
 @Composable
 fun EventScreenContent(
     isLoading: Boolean,
+    isFavorite: Boolean,
     event: EventDetailsUiModel,
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
-    onToggleFavorite: () -> Unit,
+    onAddToFavoritesClick: () -> Unit,
+    onRemoveFromFavoritesClick: () -> Unit,
 ) {
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(rememberTopAppBarState())
     Scaffold(
@@ -111,17 +119,17 @@ fun EventScreenContent(
                         horizontalArrangement = Arrangement.End,
 
                         ) {
-                        TextButton(onClick = {}) {
+                        TextButton(onClick = {
+                            if (isFavorite) {
+                                onRemoveFromFavoritesClick()
+                            } else {
+                                onAddToFavoritesClick()
+                            }
+                        }) {
                             Icon(
-                                imageVector = Icons.Outlined.Favorite,
+                                imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                                 contentDescription = "Likes Icon",
                                 modifier = Modifier.size(24.dp),
-                            )
-                            Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-                            Text(
-                                text = "${event.likes}",
-                                style = MaterialTheme.typography.labelMedium,
-                                maxLines = 1,
                             )
                         }
                         TextButton(onClick = {}) {
@@ -175,6 +183,7 @@ fun EventScreenContent(
 fun EventScreenContentPreview() {
     EventScreenContent(
         isLoading = false,
+        isFavorite = false,
         event =
         EventDetailsUiModel(
             id = "xyz",
@@ -188,6 +197,7 @@ fun EventScreenContentPreview() {
             endDate = "May 29 , 2034",
         ),
         onBackClick = { },
-        onToggleFavorite = {},
+        onAddToFavoritesClick = {},
+        onRemoveFromFavoritesClick = {},
     )
 }

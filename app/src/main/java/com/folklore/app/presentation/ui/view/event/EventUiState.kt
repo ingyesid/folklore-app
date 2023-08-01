@@ -4,6 +4,7 @@ import com.folklore.app.presentation.model.EventDetailsUiModel
 
 data class EventUiState(
     val loading: Boolean = false,
+    val isFavorite: Boolean = false,
     val event: EventDetailsUiModel,
 ) {
     companion object {

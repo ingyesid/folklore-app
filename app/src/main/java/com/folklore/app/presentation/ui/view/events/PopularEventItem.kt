@@ -78,19 +78,6 @@ fun PopularEventItem(
             ) {
                 TextButton(onClick = {}) {
                     Icon(
-                        imageVector = Icons.Outlined.Favorite,
-                        contentDescription = "Likes Icon",
-                        modifier = Modifier.size(10.dp),
-                    )
-                    Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
-                    Text(
-                        text = "${event.likes}",
-                        style = MaterialTheme.typography.labelSmall,
-                        maxLines = 1,
-                    )
-                }
-                TextButton(onClick = {}) {
-                    Icon(
                         imageVector = Icons.Outlined.Person,
                         contentDescription = "Going People Icon",
                         modifier = Modifier.size(10.dp),

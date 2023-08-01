@@ -53,8 +53,6 @@ fun MainScreen(
     favoritesViewModel: FavoritesViewModel = hiltViewModel(),
     navController: NavHostController = rememberNavController(),
 ) {
-    val homeViewState by homeViewModel.uiState.collectAsState()
-    val favoritesUiState by favoritesViewModel.uiState.collectAsState()
 
     val tabs = remember { MainTabs.values() }
     val coroutineScope = rememberCoroutineScope()
@@ -64,9 +62,6 @@ fun MainScreen(
         skipHalfExpanded = true,
     )
 
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentTabDestination = navBackStackEntry?.destination
-    val isFavoritesListTab = currentTabDestination?.route == MainDestinations.WATCHLIST
     var modalSheetContent = remember { ModalSheetContent.FILTER }
 
     ModalBottomSheetLayout(
@@ -105,10 +100,12 @@ fun MainScreen(
                         },
                     )
                 }
-                composable(MainDestinations.WATCHLIST) {
+                composable(MainDestinations.FAVORITES) {
                     FavoritesScreen(
                         viewModel = favoritesViewModel,
-                        onFavoriteEventClick = { },
+                        onFavoriteEventClick = { favoriteEvent ->
+                            onEventClick(favoriteEvent.id)
+                        },
                     )
                 }
             }
@@ -179,7 +176,7 @@ private fun BottomBar(
 
 private object MainDestinations {
     const val HOME = "home"
-    const val WATCHLIST = "favorites"
+    const val FAVORITES = "favorites"
 }
 
 private enum class MainTabs(
@@ -191,7 +188,7 @@ private enum class MainTabs(
     FAVORITES(
         R.string.tab_favorites,
         Icons.Default.Favorite,
-        MainDestinations.WATCHLIST,
+        MainDestinations.FAVORITES,
     ),
 }
 
