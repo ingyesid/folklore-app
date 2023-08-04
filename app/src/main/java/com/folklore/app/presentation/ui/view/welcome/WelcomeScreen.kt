@@ -1,6 +1,7 @@
 package com.folklore.app.presentation.ui.view.welcome
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +11,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.ArrowForward
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,22 +21,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.folklore.app.presentation.ui.view.destinations.HomeScreenDestination
-import com.ramcosta.composedestinations.annotation.Destination
-import com.ramcosta.composedestinations.annotation.RootNavGraph
-import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-@RootNavGraph(start = true)
-@Destination
 @Composable
 fun WelcomeScreen(
     viewModel: WelcomeViewModel = hiltViewModel(),
-    navigator: DestinationsNavigator,
 ) {
     val state = viewModel.uiState.collectAsState()
     val screenWasDisplayed = state.value.screenWasAlreadyDisplayed
     if (screenWasDisplayed) {
-        navigator.navigate(HomeScreenDestination)
+        // navigator.navigate(HomeScreenDestination)
     } else if (!state.value.fetchingPreferences) {
         Column(
             modifier = Modifier
@@ -62,6 +57,12 @@ fun WelcomeScreen(
                     contentDescription = "Forward Icon",
                 )
             }
+        }
+    } else {
+        Box {
+            CircularProgressIndicator(
+                modifier = Modifier.align(Alignment.Center),
+            )
         }
     }
 }

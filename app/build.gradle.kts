@@ -10,14 +10,14 @@ plugins {
 
 android {
     namespace = "com.folklore.app"
-    compileSdk = AppConfig.compileSdk
+    compileSdk = libs.versions.android.compile.sdk.get().toInt()
 
     defaultConfig {
         applicationId = "com.folklore.app"
-        minSdk = AppConfig.minSdk
-        targetSdk = AppConfig.targetSdk
-        versionCode = AppConfig.versionCode
-        versionName = AppConfig.versionName
+        minSdk = libs.versions.android.min.sdk.get().toInt()
+        targetSdk = libs.versions.android.target.sdk.get().toInt()
+        versionCode = libs.versions.version.code.get().toInt()
+        versionName = libs.versions.version.name.get()
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -26,6 +26,9 @@ android {
     }
 
     buildTypes {
+        debug {
+            isMinifyEnabled = false
+        }
         release {
             isMinifyEnabled = true
             proguardFiles(
@@ -35,54 +38,63 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     buildFeatures {
-
+        buildConfig = true
         compose = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = libs.versions.compose.compiler.get()
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
 }
+// Allow references to generated code
+kapt {
+    correctErrorTypes = true
+}
 
 dependencies {
     implementation(libs.androidx.corektx)
     implementation(libs.androidx.runtimeKtx)
+    implementation(libs.androidx.splash)
     implementation(libs.compose.activity)
     implementation(libs.compose.ui)
     implementation(libs.compose.preview)
     implementation(libs.compose.material3)
     implementation(libs.compose.material2)
-    implementation(libs.compose.destinations)
+    implementation(libs.compose.navigation)
 
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     implementation(libs.hilt.android)
-    implementation(libs.hilt.compose)
+    implementation(libs.hilt.nav.compose)
     kapt(libs.hilt.kapt)
 
     implementation(libs.coroutines.android)
 
     implementation(libs.coil.compose)
 
-    ksp(libs.compose.destinations.ksp)
+    implementation(libs.retrofit.core)
+    implementation(libs.okhttp.core)
+    implementation(libs.okhttp.logging)
+    implementation(libs.moshi.retrofit)
 
     testImplementation(libs.test.junit)
-    testImplementation(libs.mockito.core)
-    testImplementation(libs.mockito.kotlin)
+    testImplementation(libs.kluent)
+    testImplementation(libs.mockk)
+    testImplementation(libs.mockk.android)
     testImplementation(libs.coroutines.test)
 
     androidTestImplementation(libs.test.junitext)
