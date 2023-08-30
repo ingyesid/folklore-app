@@ -3,12 +3,11 @@ package com.folklore.app.presentation.ui.view.events
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.folklore.app.di.IoDispatcher
-import com.folklore.app.domain.mapping.Mapper
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.model.Resource
-import com.folklore.app.domain.usecase.GetAllEventsUseCase
-import com.folklore.app.presentation.mapper.EventModelMapper
 import com.folklore.app.presentation.model.EventUiModel
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Event
+import com.folklore.domain.model.Resource
+import com.folklore.domain.usecase.GetAllEventsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow

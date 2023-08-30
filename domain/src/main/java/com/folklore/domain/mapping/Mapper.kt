@@ -1,4 +1,4 @@
-package com.folklore.app.domain.mapping
+package com.folklore.domain.mapping
 
 abstract class Mapper<T1, T2> {
 

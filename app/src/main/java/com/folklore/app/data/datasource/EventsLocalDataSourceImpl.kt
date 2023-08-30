@@ -4,10 +4,10 @@ import com.folklore.app.data.database.EventDao
 import com.folklore.app.data.database.FavoriteDao
 import com.folklore.app.data.database.model.EventEntity
 import com.folklore.app.data.database.model.FavoriteEntity
-import com.folklore.app.domain.datasource.EventsLocalDataSource
-import com.folklore.app.domain.mapping.Mapper
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.model.Favorite
+import com.folklore.domain.datasource.EventsLocalDataSource
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Event
+import com.folklore.domain.model.Favorite
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest

@@ -1,4 +1,4 @@
-package com.folklore.app.domain.model
+package com.folklore.domain.model
 
 import java.util.Date
 
@@ -15,6 +15,7 @@ data class Event(
     val endsAt: Date,
     val location: EventLocation,
     val status: EventStatus,
+    val isFavorite: Boolean = false,
 ) {
     val isPopular: Boolean
         get() = goingCount > 50

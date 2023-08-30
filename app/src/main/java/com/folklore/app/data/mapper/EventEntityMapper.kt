@@ -1,11 +1,12 @@
 package com.folklore.app.data.mapper
 
 import com.folklore.app.data.database.model.EventEntity
-import com.folklore.app.domain.mapping.Mapper
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.model.EventLocation
-import com.folklore.app.domain.model.EventStatus
-import java.util.*
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Event
+import com.folklore.domain.model.EventLocation
+import com.folklore.domain.model.EventStatus
+import java.util.Date
+
 import javax.inject.Inject
 
 class EventEntityMapper @Inject constructor() : Mapper<EventEntity, Event>() {

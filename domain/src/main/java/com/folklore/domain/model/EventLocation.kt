@@ -1,4 +1,4 @@
-package com.folklore.app.domain.model
+package com.folklore.domain.model
 
 data class EventLocation(
     val city: String,

@@ -65,6 +65,7 @@ kapt {
 dependencies {
     implementation(libs.androidx.corektx)
     implementation(libs.androidx.runtimeKtx)
+    implementation(libs.androidx.runtime.compose)
     implementation(libs.androidx.splash)
     implementation(libs.compose.activity)
     implementation(libs.compose.ui)
@@ -76,6 +77,7 @@ dependencies {
     implementation(libs.androidx.datastore)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
+    implementation(project(mapOf("path" to ":domain")))
     ksp(libs.androidx.room.compiler)
 
     implementation(libs.hilt.android)

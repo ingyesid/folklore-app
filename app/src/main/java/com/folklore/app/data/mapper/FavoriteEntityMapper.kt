@@ -1,8 +1,8 @@
 package com.folklore.app.data.mapper
 
 import com.folklore.app.data.database.model.FavoriteEntity
-import com.folklore.app.domain.mapping.Mapper
-import com.folklore.app.domain.model.Favorite
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Favorite
 import javax.inject.Inject
 
 class FavoriteEntityMapper @Inject constructor() : Mapper<FavoriteEntity, Favorite>() {

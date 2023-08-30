@@ -1,8 +1,8 @@
-package com.folklore.app.domain.repository
+package com.folklore.domain.repository
 
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.model.Favorite
-import com.folklore.app.domain.model.Resource
+import com.folklore.domain.model.Event
+import com.folklore.domain.model.Favorite
+import com.folklore.domain.model.Resource
 import kotlinx.coroutines.flow.Flow
 
 interface EventsRepository {

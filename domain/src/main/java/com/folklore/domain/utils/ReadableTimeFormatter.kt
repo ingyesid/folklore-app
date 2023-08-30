@@ -1,8 +1,8 @@
-package com.folklore.app.domain.utils
+package com.folklore.domain.utils
 
 import java.util.Date
 
-@FunctionalInterface
+
 interface ReadableTimeFormatter {
     fun getReadableTime(date: Date): String
 }

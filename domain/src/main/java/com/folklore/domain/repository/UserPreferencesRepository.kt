@@ -1,6 +1,6 @@
-package com.folklore.app.domain.repository
+package com.folklore.domain.repository
 
-import com.folklore.app.domain.model.UserPreferences
+import com.folklore.domain.model.UserPreferences
 import kotlinx.coroutines.flow.Flow
 
 interface UserPreferencesRepository {

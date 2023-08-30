@@ -1,14 +1,9 @@
 package com.folklore.app.data.mapper
 
-import com.folklore.app.data.database.model.EventEntity
 import com.folklore.app.data.database.model.FavoriteEntity
-import com.folklore.app.domain.mapping.Mapper
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.model.EventLocation
-import com.folklore.app.domain.model.EventStatus
-import com.folklore.app.domain.model.Favorite
-import com.folklore.app.domain.utils.ReadableTimeFormatter
-import java.util.*
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Event
+import com.folklore.domain.utils.ReadableTimeFormatter
 import javax.inject.Inject
 
 class EventToFavoriteEntityMapper @Inject constructor(

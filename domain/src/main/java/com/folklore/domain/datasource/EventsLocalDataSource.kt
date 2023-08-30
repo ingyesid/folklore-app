@@ -1,7 +1,7 @@
-package com.folklore.app.domain.datasource
+package com.folklore.domain.datasource
 
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.model.Favorite
+import com.folklore.domain.model.Event
+import com.folklore.domain.model.Favorite
 import kotlinx.coroutines.flow.Flow
 
 interface EventsLocalDataSource {

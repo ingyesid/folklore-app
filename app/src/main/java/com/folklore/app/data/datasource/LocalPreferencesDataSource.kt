@@ -8,9 +8,9 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.core.stringSetPreferencesKey
-import com.folklore.app.domain.datasource.UserPreferencesDataSource
-import com.folklore.app.domain.model.SortOrder
-import com.folklore.app.domain.model.UserPreferences
+import com.folklore.domain.datasource.UserPreferencesDataSource
+import com.folklore.domain.model.SortOrder
+import com.folklore.domain.model.UserPreferences
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.first

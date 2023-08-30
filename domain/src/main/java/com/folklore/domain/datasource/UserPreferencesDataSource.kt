@@ -1,6 +1,6 @@
-package com.folklore.app.domain.datasource
+package com.folklore.domain.datasource
 
-import com.folklore.app.domain.model.UserPreferences
+import com.folklore.domain.model.UserPreferences
 import kotlinx.coroutines.flow.Flow
 
 interface UserPreferencesDataSource {

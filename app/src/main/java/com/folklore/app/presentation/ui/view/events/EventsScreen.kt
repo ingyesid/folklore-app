@@ -10,22 +10,20 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.outlined.Search
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.folklore.app.R
 import com.folklore.app.presentation.model.EventUiModel
 import com.folklore.app.presentation.utils.EventsPreviewProvider
@@ -38,7 +36,7 @@ fun EventsScreen(
     onSearchOptionClick: () -> Unit,
     onEventClick: (event: String) -> Unit,
 ) {
-    val uiState = viewModel.uiState.collectAsState().value
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
     EventsScreenContent(
         uiState = uiState,
         onFilterOptionClick = onFilterOptionClick,

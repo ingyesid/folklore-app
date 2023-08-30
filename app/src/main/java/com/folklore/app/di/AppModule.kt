@@ -24,18 +24,6 @@ import com.folklore.app.data.remote.AuthHeaderInterceptor
 import com.folklore.app.data.remote.FolkloreAPI
 import com.folklore.app.data.remote.model.EventDto
 import com.folklore.app.data.repository.EventsRepositoryImpl
-import com.folklore.app.domain.datasource.EventsLocalDataSource
-import com.folklore.app.domain.datasource.EventsRemoteDataSource
-import com.folklore.app.domain.mapping.Mapper
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.model.Favorite
-import com.folklore.app.domain.repository.EventsRepository
-import com.folklore.app.domain.usecase.AddFavoriteUseCase
-import com.folklore.app.domain.usecase.CheckIfEventIsFavoriteUseCase
-import com.folklore.app.domain.usecase.GetAllEventsUseCase
-import com.folklore.app.domain.usecase.GetAllFavoritesUseCase
-import com.folklore.app.domain.usecase.RemoveFromFavoriteUseCase
-import com.folklore.app.domain.utils.ReadableTimeFormatter
 import com.folklore.app.presentation.mapper.EventDetailsModelMapper
 import com.folklore.app.presentation.mapper.EventModelMapper
 import com.folklore.app.presentation.mapper.FavoriteUiModelMapper
@@ -45,6 +33,18 @@ import com.folklore.app.presentation.model.EventUiModel
 import com.folklore.app.presentation.model.FavoriteEventUiModel
 import com.folklore.app.presentation.model.SearchResultModel
 import com.folklore.app.presentation.utils.DateStringFormatter
+import com.folklore.domain.datasource.EventsLocalDataSource
+import com.folklore.domain.datasource.EventsRemoteDataSource
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Event
+import com.folklore.domain.model.Favorite
+import com.folklore.domain.repository.EventsRepository
+import com.folklore.domain.usecase.AddFavoriteUseCase
+import com.folklore.domain.usecase.CheckIfEventIsFavoriteUseCase
+import com.folklore.domain.usecase.GetAllEventsUseCase
+import com.folklore.domain.usecase.GetAllFavoritesUseCase
+import com.folklore.domain.usecase.RemoveFromFavoriteUseCase
+import com.folklore.domain.utils.ReadableTimeFormatter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -177,9 +177,13 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideEventsRemoteDataSource(api: FolkloreAPI): EventsRemoteDataSource {
+    fun provideEventsRemoteDataSource(
+        api: FolkloreAPI,
+        eventDtoMapper: Mapper<EventDto, Event>,
+    ): EventsRemoteDataSource {
         return EventsAPIDataSourceImpl(
             folkloreAPI = api,
+            eventDtoMapper = eventDtoMapper
         )
     }
 
@@ -188,12 +192,10 @@ object AppModule {
     fun provideEventsRepository(
         localDataSource: EventsLocalDataSource,
         remoteDataSource: EventsRemoteDataSource,
-        eventDtoMapper: Mapper<EventDto, Event>,
     ): EventsRepository {
         return EventsRepositoryImpl(
             localDataSource = localDataSource,
             remoteDataSource = remoteDataSource,
-            eventDtoMapper = eventDtoMapper,
         )
     }
 

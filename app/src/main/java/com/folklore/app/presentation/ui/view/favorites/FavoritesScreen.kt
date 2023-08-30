@@ -24,6 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.folklore.app.R
 import com.folklore.app.presentation.model.EventUiModel
 import com.folklore.app.presentation.model.FavoriteEventUiModel
@@ -34,7 +35,7 @@ fun FavoritesScreen(
     viewModel: FavoritesViewModel = hiltViewModel(),
     onFavoriteEventClick: (event: FavoriteEventUiModel) -> Unit,
 ) {
-    val uiState = viewModel.uiState.collectAsState().value
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle().value
     FavoritesScreenContent(
         uiState = uiState,
         onFavoriteEventClick = onFavoriteEventClick,

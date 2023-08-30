@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Folklore"
 include(":app")
+include(":domain")

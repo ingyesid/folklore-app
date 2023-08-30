@@ -1,7 +1,7 @@
 package com.folklore.app.data.repository
 
-import com.folklore.app.domain.datasource.UserPreferencesDataSource
-import com.folklore.app.domain.repository.UserPreferencesRepository
+import com.folklore.domain.datasource.UserPreferencesDataSource
+import com.folklore.domain.repository.UserPreferencesRepository
 import javax.inject.Inject
 
 class UserPreferencesRepositoryImpl @Inject constructor(

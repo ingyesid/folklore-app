@@ -1,12 +1,8 @@
 package com.folklore.app.presentation.mapper
 
-import com.folklore.app.domain.mapping.Mapper
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.model.Favorite
-import com.folklore.app.domain.utils.ReadableTimeFormatter
-import com.folklore.app.presentation.model.EventUiModel
 import com.folklore.app.presentation.model.FavoriteEventUiModel
-import com.folklore.app.presentation.model.SearchResultModel
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Favorite
 import javax.inject.Inject
 
 class FavoriteUiModelMapper @Inject constructor() : Mapper<Favorite, FavoriteEventUiModel>() {

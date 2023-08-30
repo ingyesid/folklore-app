@@ -56,6 +56,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.folklore.app.R
 import com.folklore.app.presentation.model.SearchResultModel
@@ -67,7 +68,7 @@ fun SearchScreen(
     onEventClick: (String) -> Unit,
     onClose: () -> Unit,
 ) {
-    val viewState by viewModel.viewState.collectAsState()
+    val viewState by viewModel.viewState.collectAsStateWithLifecycle()
 
     SearchScreenContent(
         searchQuery = viewState.searchQuery,
