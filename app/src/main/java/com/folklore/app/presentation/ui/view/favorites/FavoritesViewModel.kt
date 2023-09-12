@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.folklore.app.presentation.model.FavoriteEventUiModel
 import com.folklore.di.IoDispatcher
 import com.folklore.domain.mapping.Mapper
-import com.folklore.domain.model.Favorite
+import com.folklore.domain.model.Event
 import com.folklore.domain.usecase.GetAllFavoritesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -20,7 +20,7 @@ class FavoritesViewModel @Inject constructor(
     @IoDispatcher
     private val dispatcher: CoroutineDispatcher,
     private val getAllFavoritesUseCase: GetAllFavoritesUseCase,
-    private val uiModelMapper: Mapper<Favorite, FavoriteEventUiModel>,
+    private val uiModelMapper: Mapper<Event, FavoriteEventUiModel>,
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(FavoritesUiState())
     val uiState: StateFlow<FavoritesUiState> = _uiState

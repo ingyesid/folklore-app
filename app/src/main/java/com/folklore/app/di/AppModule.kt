@@ -12,7 +12,6 @@ import com.folklore.app.presentation.model.SearchResultModel
 import com.folklore.app.presentation.utils.DateStringFormatter
 import com.folklore.domain.mapping.Mapper
 import com.folklore.domain.model.Event
-import com.folklore.domain.model.Favorite
 import com.folklore.domain.utils.ReadableTimeFormatter
 import dagger.Module
 import dagger.Provides
@@ -39,8 +38,8 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideFavoritesUiModelMapper(): Mapper<Favorite, FavoriteEventUiModel> {
-        return FavoriteUiModelMapper()
+    fun provideFavoritesUiModelMapper(formatter: ReadableTimeFormatter): Mapper<Event, FavoriteEventUiModel> {
+        return FavoriteUiModelMapper(formatter)
     }
 
     @Provides

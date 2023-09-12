@@ -1,7 +1,6 @@
 package com.folklore.domain.datasource
 
 import com.folklore.domain.model.Event
-import com.folklore.domain.model.Favorite
 import kotlinx.coroutines.flow.Flow
 
 interface EventsLocalDataSource {
@@ -16,8 +15,11 @@ interface EventsLocalDataSource {
 
     suspend fun updateEvent(event: Event)
 
-    fun getFavorites(): Flow<List<Favorite>>
+    fun getFavorites(): Flow<List<Event>>
+
     suspend fun isFavorite(event: Event): Boolean
+
     suspend fun addToFavorites(event: Event)
+
     suspend fun removeFromFavorites(event: Event)
 }

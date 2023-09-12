@@ -25,6 +25,7 @@ class EventEntityMapper @Inject constructor() : Mapper<EventEntity, Event>() {
             endsAt = Date(value.endsAt),
             status = mapStatus(value.status),
             location = mapEventLocation(value),
+            isFavorite = value.isFavorite
         )
     }
 
@@ -45,6 +46,7 @@ class EventEntityMapper @Inject constructor() : Mapper<EventEntity, Event>() {
             latitude = value.location.latitude,
             longitude = value.location.longitude,
             status = reverseMapStatus(value.status),
+            isFavorite = value.isFavorite
         )
     }
 

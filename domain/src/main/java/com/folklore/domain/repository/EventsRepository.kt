@@ -1,7 +1,6 @@
 package com.folklore.domain.repository
 
 import com.folklore.domain.model.Event
-import com.folklore.domain.model.Favorite
 import com.folklore.domain.model.Resource
 import kotlinx.coroutines.flow.Flow
 
@@ -13,7 +12,7 @@ interface EventsRepository {
 
     suspend fun updateEvent(event: Event)
 
-    fun getAllFavorites(): Flow<List<Favorite>>
+    fun getAllFavorites(): Flow<List<Event>>
 
     suspend fun isFavorite(event: Event): Boolean
 

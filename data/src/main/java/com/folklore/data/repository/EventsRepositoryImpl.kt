@@ -3,7 +3,6 @@ package com.folklore.data.repository
 import com.folklore.domain.datasource.EventsLocalDataSource
 import com.folklore.domain.datasource.EventsRemoteDataSource
 import com.folklore.domain.model.Event
-import com.folklore.domain.model.Favorite
 import com.folklore.domain.model.Resource
 import com.folklore.domain.repository.EventsRepository
 import kotlinx.coroutines.flow.Flow
@@ -56,7 +55,7 @@ class EventsRepositoryImpl @Inject constructor(
         localDataSource.updateEvent(event)
     }
 
-    override fun getAllFavorites(): Flow<List<Favorite>> {
+    override fun getAllFavorites(): Flow<List<Event>> {
         return localDataSource.getFavorites()
     }
 

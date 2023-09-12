@@ -1,13 +1,10 @@
 package com.folklore.data.datasource
 
 import com.folklore.data.database.EventDao
-import com.folklore.data.database.FavoriteDao
 import com.folklore.data.database.model.EventEntity
-import com.folklore.data.database.model.FavoriteEntity
 import com.folklore.domain.datasource.EventsLocalDataSource
 import com.folklore.domain.mapping.Mapper
 import com.folklore.domain.model.Event
-import com.folklore.domain.model.Favorite
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.mapLatest
@@ -16,10 +13,7 @@ import javax.inject.Inject
 @OptIn(ExperimentalCoroutinesApi::class)
 class EventsLocalDataSourceImpl @Inject constructor(
     private val eventsDao: EventDao,
-    private val favoritesDao: FavoriteDao,
     private val entityMapper: Mapper<EventEntity, Event>,
-    private val favEntityMapper: Mapper<FavoriteEntity, Favorite>,
-    private val eventToFavoriteMapper: Mapper<Event, FavoriteEntity>,
 ) : EventsLocalDataSource {
     override suspend fun getAllEvents(): List<Event> {
         return entityMapper.mapCollection(eventsDao.getAllEvents(""))
@@ -46,20 +40,20 @@ class EventsLocalDataSourceImpl @Inject constructor(
         return entityMapper.mapCollection(eventsDao.getAllEvents(query))
     }
 
-    override fun getFavorites(): Flow<List<Favorite>> =
-        favoritesDao.getAllFavorites().mapLatest {
-            it.map { entity -> favEntityMapper.mapTo(entity) }
-        }
+    override fun getFavorites(): Flow<List<Event>> = eventsDao.getAllFavorites()
+        .mapLatest { it.map { eventEntity -> entityMapper.mapTo(eventEntity) } }
 
 
-    override suspend fun isFavorite(event: Event) = favoritesDao.getFavorite(event.id) != null
+    override suspend fun isFavorite(event: Event) = event.isFavorite
 
     override suspend fun addToFavorites(event: Event) {
-        favoritesDao.addFavorite(eventToFavoriteMapper.mapTo(event))
+        val favoriteEvent = event.copy(isFavorite = true)
+        updateEvent(favoriteEvent)
     }
 
     override suspend fun removeFromFavorites(event: Event) {
-        favoritesDao.removeFavorite(event.id)
+        val favoriteEvent = event.copy(isFavorite = false)
+        updateEvent(favoriteEvent)
     }
 
 }

@@ -8,18 +8,13 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.emptyPreferences
 import androidx.datastore.preferences.preferencesDataStoreFile
 import androidx.room.Room
-
 import com.folklore.data.database.EventDao
-import com.folklore.data.database.FavoriteDao
 import com.folklore.data.database.FolkloreDatabase
 import com.folklore.data.database.model.EventEntity
-import com.folklore.data.database.model.FavoriteEntity
 import com.folklore.data.datasource.EventsAPIDataSourceImpl
 import com.folklore.data.datasource.EventsLocalDataSourceImpl
 import com.folklore.data.mapper.EventDtoMapper
 import com.folklore.data.mapper.EventEntityMapper
-import com.folklore.data.mapper.EventToFavoriteEntityMapper
-import com.folklore.data.mapper.FavoriteEntityMapper
 import com.folklore.data.remote.AuthHeaderInterceptor
 import com.folklore.data.remote.FolkloreAPI
 import com.folklore.data.remote.model.EventDto
@@ -28,14 +23,12 @@ import com.folklore.domain.datasource.EventsLocalDataSource
 import com.folklore.domain.datasource.EventsRemoteDataSource
 import com.folklore.domain.mapping.Mapper
 import com.folklore.domain.model.Event
-import com.folklore.domain.model.Favorite
 import com.folklore.domain.repository.EventsRepository
 import com.folklore.domain.usecase.AddFavoriteUseCase
 import com.folklore.domain.usecase.CheckIfEventIsFavoriteUseCase
 import com.folklore.domain.usecase.GetAllEventsUseCase
 import com.folklore.domain.usecase.GetAllFavoritesUseCase
 import com.folklore.domain.usecase.RemoveFromFavoriteUseCase
-import com.folklore.domain.utils.ReadableTimeFormatter
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -88,10 +81,11 @@ object RepositoryModule {
         return database.eventDao
     }
 
+
     @Provides
     @Singleton
-    fun provideFavoritesDAO(database: FolkloreDatabase): FavoriteDao {
-        return database.favoriteDao
+    fun provideEventDtoMapper(): Mapper<EventDto, Event> {
+        return EventDtoMapper(SimpleDateFormat(SERVER_DATE_FORMAT, Locale.US))
     }
 
     @Provides
@@ -102,38 +96,13 @@ object RepositoryModule {
 
     @Provides
     @Singleton
-    fun provideFavoriteEntityMapper(): Mapper<FavoriteEntity, Favorite> {
-        return FavoriteEntityMapper()
-    }
-
-    @Provides
-    @Singleton
-    fun provideEventToFavoriteEntityMapper(dateFormatter: ReadableTimeFormatter): Mapper<Event, FavoriteEntity> {
-        return EventToFavoriteEntityMapper(dateFormatter)
-    }
-
-    @Provides
-    @Singleton
-    fun provideEventDtoMapper(): Mapper<EventDto, Event> {
-        return EventDtoMapper(SimpleDateFormat(SERVER_DATE_FORMAT, Locale.US))
-    }
-
-
-    @Provides
-    @Singleton
     fun provideEventsLocalDataSource(
         dao: EventDao,
         mapper: Mapper<EventEntity, Event>,
-        favoritesDao: FavoriteDao,
-        favoriteEntityMapper: Mapper<FavoriteEntity, Favorite>,
-        eventToFavoriteMapper: Mapper<Event, FavoriteEntity>,
     ): EventsLocalDataSource {
         return EventsLocalDataSourceImpl(
             eventsDao = dao,
             entityMapper = mapper,
-            favoritesDao = favoritesDao,
-            favEntityMapper = favoriteEntityMapper,
-            eventToFavoriteMapper = eventToFavoriteMapper
         )
     }
 

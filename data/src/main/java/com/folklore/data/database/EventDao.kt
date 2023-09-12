@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.folklore.data.database.model.EventEntity
+import kotlinx.coroutines.flow.Flow
 import org.intellij.lang.annotations.Language
 
 @Dao
@@ -27,4 +28,12 @@ interface EventDao {
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateEvent(event: EventEntity)
+
+    @Language("RoomSql")
+    @Query(
+        """
+            SELECT * FROM events WHERE isFavorite = 1
+        """,
+    )
+    fun getAllFavorites(): Flow<List<EventEntity>>
 }
