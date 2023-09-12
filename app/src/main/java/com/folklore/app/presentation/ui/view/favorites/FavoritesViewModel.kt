@@ -2,8 +2,8 @@ package com.folklore.app.presentation.ui.view.favorites
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.folklore.app.di.IoDispatcher
 import com.folklore.app.presentation.model.FavoriteEventUiModel
+import com.folklore.di.IoDispatcher
 import com.folklore.domain.mapping.Mapper
 import com.folklore.domain.model.Favorite
 import com.folklore.domain.usecase.GetAllFavoritesUseCase

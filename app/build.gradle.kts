@@ -63,6 +63,10 @@ kapt {
 }
 
 dependencies {
+    implementation(project(mapOf("path" to ":domain")))
+    implementation(project(mapOf("path" to ":di")))
+    implementation(project(mapOf("path" to ":data")))
+
     implementation(libs.androidx.corektx)
     implementation(libs.androidx.runtimeKtx)
     implementation(libs.androidx.runtime.compose)
@@ -74,24 +78,14 @@ dependencies {
     implementation(libs.compose.material2)
     implementation(libs.compose.navigation)
 
-    implementation(libs.androidx.datastore)
-    implementation(libs.androidx.room.runtime)
-    implementation(libs.androidx.room.ktx)
-    implementation(project(mapOf("path" to ":domain")))
-    ksp(libs.androidx.room.compiler)
-
     implementation(libs.hilt.android)
     implementation(libs.hilt.nav.compose)
-    kapt(libs.hilt.kapt)
+
+    ksp(libs.hilt.kapt)
 
     implementation(libs.coroutines.android)
 
     implementation(libs.coil.compose)
-
-    implementation(libs.retrofit.core)
-    implementation(libs.okhttp.core)
-    implementation(libs.okhttp.logging)
-    implementation(libs.moshi.retrofit)
 
     testImplementation(libs.test.junit)
     testImplementation(libs.kluent)

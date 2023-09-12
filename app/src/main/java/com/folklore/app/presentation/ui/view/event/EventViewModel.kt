@@ -3,8 +3,8 @@ package com.folklore.app.presentation.ui.view.event
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.folklore.app.di.IoDispatcher
 import com.folklore.app.presentation.model.EventDetailsUiModel
+import com.folklore.di.IoDispatcher
 import com.folklore.domain.mapping.Mapper
 import com.folklore.domain.model.Event
 import com.folklore.domain.model.Resource

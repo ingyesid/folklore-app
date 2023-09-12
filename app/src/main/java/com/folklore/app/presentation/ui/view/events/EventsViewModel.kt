@@ -2,8 +2,8 @@ package com.folklore.app.presentation.ui.view.events
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.folklore.app.di.IoDispatcher
 import com.folklore.app.presentation.model.EventUiModel
+import com.folklore.di.IoDispatcher
 import com.folklore.domain.mapping.Mapper
 import com.folklore.domain.model.Event
 import com.folklore.domain.model.Resource
