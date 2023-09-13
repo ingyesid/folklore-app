@@ -44,7 +44,7 @@ class EventsLocalDataSourceImpl @Inject constructor(
         .mapLatest { it.map { eventEntity -> entityMapper.mapTo(eventEntity) } }
 
 
-    override suspend fun isFavorite(event: Event) = event.isFavorite
+    override suspend fun isFavorite(event: Event) = getEvent(event.id)?.isFavorite ?: false
 
     override suspend fun addToFavorites(event: Event) {
         val favoriteEvent = event.copy(isFavorite = true)

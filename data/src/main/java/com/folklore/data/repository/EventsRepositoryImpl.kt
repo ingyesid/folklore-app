@@ -61,12 +61,12 @@ class EventsRepositoryImpl @Inject constructor(
 
     override suspend fun isFavorite(event: Event) = localDataSource.isFavorite(event)
 
-    override suspend fun addToFavorite(event: Event) {
-        localDataSource.addToFavorites(event)
+    override suspend fun addToFavorite(event: Event){
+        return localDataSource.addToFavorites(event)
     }
 
-    override suspend fun removeFromFavorites(event: Event) {
-        localDataSource.removeFromFavorites(event)
+    override suspend fun removeFromFavorites(event: Event){
+        return localDataSource.removeFromFavorites(event)
     }
 
 }
