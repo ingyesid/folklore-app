@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.hilt) apply false
     alias(libs.plugins.secrets) apply false
     alias(libs.plugins.detekt)
+    alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
 }
 
 /*

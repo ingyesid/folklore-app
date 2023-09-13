@@ -1,10 +1,9 @@
 package com.folklore.app.presentation.mapper
 
-import com.folklore.app.domain.mapping.Mapper
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.utils.ReadableTimeFormatter
-import com.folklore.app.presentation.model.EventUiModel
+
 import com.folklore.app.presentation.model.SearchResultModel
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Event
 import javax.inject.Inject
 
 class SearchResultModelMapper @Inject constructor() : Mapper<Event, SearchResultModel>() {

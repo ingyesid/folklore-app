@@ -1,9 +1,9 @@
 package com.folklore.app.presentation.mapper
 
-import com.folklore.app.domain.mapping.Mapper
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.utils.ReadableTimeFormatter
 import com.folklore.app.presentation.model.EventUiModel
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Event
+import com.folklore.domain.utils.ReadableTimeFormatter
 import javax.inject.Inject
 
 class EventModelMapper @Inject constructor(

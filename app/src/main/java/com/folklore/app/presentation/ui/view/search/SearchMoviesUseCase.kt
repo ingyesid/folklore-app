@@ -1,7 +1,7 @@
 package com.folklore.app.presentation.ui.view.search
 
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.repository.EventsRepository
+import com.folklore.domain.model.Event
+import com.folklore.domain.repository.EventsRepository
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import javax.inject.Inject

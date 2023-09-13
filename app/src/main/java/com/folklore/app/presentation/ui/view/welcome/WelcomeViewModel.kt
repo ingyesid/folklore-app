@@ -2,9 +2,9 @@ package com.folklore.app.presentation.ui.view.welcome
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.folklore.app.di.IoDispatcher
-import com.folklore.app.domain.usecase.CheckIfWelcomeScreenWasDisplayedUseCase
-import com.folklore.app.domain.usecase.SetWelcomeScreenWasDisplayedUseCase
+import com.folklore.di.IoDispatcher
+import com.folklore.domain.usecase.CheckIfWelcomeScreenWasDisplayedUseCase
+import com.folklore.domain.usecase.SetWelcomeScreenWasDisplayedUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow

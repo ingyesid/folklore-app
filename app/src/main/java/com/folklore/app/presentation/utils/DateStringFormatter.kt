@@ -2,7 +2,7 @@ package com.folklore.app.presentation.utils
 
 import android.content.Context
 import android.text.format.DateUtils
-import com.folklore.app.domain.utils.ReadableTimeFormatter
+import com.folklore.domain.utils.ReadableTimeFormatter
 import java.util.Date
 import javax.inject.Inject
 
