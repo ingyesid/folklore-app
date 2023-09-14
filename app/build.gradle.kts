@@ -37,12 +37,21 @@ android {
             )
         }
     }
+    flavorDimensions += "country"
+    productFlavors {
+        create("colombia") {
+            applicationIdSuffix = ".col"
+        }
+        create("peru") {
+            applicationIdSuffix = ".per"
+        }
+    }
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = libs.versions.jvm.target.get()
     }
     buildFeatures {
         buildConfig = true

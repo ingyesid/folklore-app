@@ -9,6 +9,7 @@ version_code = "1"
 version_name = "1.0.0"
 kotlin = "1.9.0"
 ksp = "1.9.0-1.0.12"
+jvm_target = "17"
 
 # General dependencies
 coil = "2.2.2"
