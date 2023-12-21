@@ -63,10 +63,10 @@ jobs:
          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}      
-      run: ./gradlew app:assembleColombiaRelease
+      run: ./gradlew app:assembleRelease
 
     - name: Upload release APK
       uses: actions/upload-artifact@v2
       with:
         name: release.apk
-        path: app/colombia/release/app-colombia-release.apk
+        path: app/build/outputs/apk/colombia/release/app-colombia-release.apk
