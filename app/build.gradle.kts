@@ -24,6 +24,14 @@ android {
             useSupportLibrary = true
         }
     }
+    signingConfigs {
+        create("release") {
+            storeFile = file("release.jks")
+            storePassword = System.getenv("SIGNING_STORE_PASSWORD")
+            keyAlias = System.getenv("SIGNING_KEY_ALIAS")
+            keyPassword = System.getenv("SIGNING_KEY_PASSWORD")
+        }
+    }
 
     buildTypes {
         debug {
@@ -35,6 +43,17 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
             )
+            signingConfig = signingConfigs.getByName("release")
+        }
+    }
+
+    flavorDimensions += "country"
+    productFlavors {
+        create("colombia") {
+            applicationIdSuffix = ".col"
+        }
+        create("peru") {
+            applicationIdSuffix = ".per"
         }
     }
     compileOptions {
@@ -42,7 +61,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "17"
+        jvmTarget = libs.versions.jvm.target.get()
     }
     buildFeatures {
         buildConfig = true

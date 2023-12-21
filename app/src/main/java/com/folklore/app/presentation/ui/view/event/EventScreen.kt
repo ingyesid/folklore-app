@@ -42,7 +42,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import com.folklore.app.presentation.model.EventDetailsUiModel
-import com.folklore.app.presentation.model.FavoriteEventUiModel
 
 @Composable
 fun EventScreen(
@@ -59,6 +58,7 @@ fun EventScreen(
         onBackClick = { onBackClick() },
         onAddToFavoritesClick = onAddToFavoritesClick,
         onRemoveFromFavoritesClick = onRemoveFromFavoritesClick,
+        showBuyTicketOption = uiState.showBuyTicketOption
     )
 }
 
@@ -68,6 +68,7 @@ fun EventScreenContent(
     isLoading: Boolean,
     isFavorite: Boolean,
     event: EventDetailsUiModel,
+    showBuyTicketOption: Boolean,
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     onAddToFavoritesClick: () -> Unit,
@@ -119,18 +120,28 @@ fun EventScreenContent(
                         horizontalArrangement = Arrangement.End,
 
                         ) {
-                        TextButton(onClick = {
-                            if (isFavorite) {
-                                onRemoveFromFavoritesClick()
-                            } else {
-                                onAddToFavoritesClick()
+                        if (showBuyTicketOption) {
+                            TextButton(onClick = {
+                                if (isFavorite) {
+                                    onRemoveFromFavoritesClick()
+                                } else {
+                                    onAddToFavoritesClick()
+                                }
+                            }) {
+
+                                Icon(
+                                    imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                                    contentDescription = "Likes Icon",
+                                    modifier = Modifier.size(24.dp),
+                                )
+                                Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
+                                Text(
+                                    text = "${event.likes}",
+                                    style = MaterialTheme.typography.labelMedium,
+                                    maxLines = 1,
+                                )
+
                             }
-                        }) {
-                            Icon(
-                                imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
-                                contentDescription = "Likes Icon",
-                                modifier = Modifier.size(24.dp),
-                            )
                         }
                         TextButton(onClick = {}) {
                             Icon(
@@ -199,5 +210,6 @@ fun EventScreenContentPreview() {
         onBackClick = { },
         onAddToFavoritesClick = {},
         onRemoveFromFavoritesClick = {},
+        showBuyTicketOption = false,
     )
 }
