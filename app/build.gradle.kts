@@ -51,11 +51,9 @@ android {
     productFlavors {
         create("colombia") {
             applicationIdSuffix = ".col"
-            signingConfig = signingConfigs.getByName("release")
         }
         create("peru") {
             applicationIdSuffix = ".per"
-            signingConfig = signingConfigs.getByName("release")
         }
     }
     compileOptions {
