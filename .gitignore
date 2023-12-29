@@ -18,3 +18,4 @@
 local.properties
 app/colombia/release/app-colombia-release.apk
 app/colombia/release/output-metadata.json
+*.jks
