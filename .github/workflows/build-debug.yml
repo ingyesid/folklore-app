@@ -70,3 +70,17 @@ jobs:
       with:
         name: release.aab
         path: app/build/outputs/bundle/colombiaRelease/app-colombia-release.aab
+        
+    - name: Install Fastlane
+      run: |
+        sudo gem install fastlane -NV
+      
+    - name: Run Fastlane to upload AAB to Google Play (internal track)
+      env:
+        PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+        SUPPLY_JSON_KEY_DATA: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
+        PACKAGE_NAME: com.folklore.app.col
+      run: |
+        echo "$SUPPLY_JSON_KEY_DATA" > google_play.json
+        fastlane run supply package_name:"$PACKAGE_NAME" json_key:"google_play.json" aab:"app/build/outputs/bundle/colombiaRelease/app-colombia-release.aab" track:"internal" skip_upload_metadata:true skip_upload_images:true skip_upload_screenshots:true release_status:"draft" 
+    
