@@ -57,7 +57,7 @@ jobs:
            echo $ENCODED_STRING > keystore-b64.txt
            base64 -d keystore-b64.txt > $SIGNING_KEY_STORE_PATH
 
-    - name: Build Release apk
+    - name: Build Release Bundle(aab)
       env:
          SIGNING_KEY_STORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
@@ -65,12 +65,12 @@ jobs:
          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}      
       run: ./gradlew app:bundleRelease
 
-    - name: Upload release APK
+    - name: Upload release .aab to artifacts
       uses: actions/upload-artifact@v2
       with:
         name: release.aab
         path: app/build/outputs/bundle/colombiaRelease/app-colombia-release.aab
-        
+
     - name: Install Fastlane
       run: |
         sudo gem install fastlane -NV
