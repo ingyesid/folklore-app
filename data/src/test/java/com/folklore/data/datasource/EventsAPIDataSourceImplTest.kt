@@ -1,11 +1,14 @@
-package com.folklore.app.data.datasource
+package com.folklore.data.datasource
 
-import com.folklore.app.data.remote.FolkloreAPI
-import com.folklore.app.data.remote.model.EventsResponse
-import com.folklore.app.domain.datasource.EventsRemoteDataSource
+import com.folklore.data.remote.FolkloreAPI
+import com.folklore.data.remote.model.EventDto
+import com.folklore.data.remote.model.EventsResponse
+import com.folklore.domain.datasource.EventsRemoteDataSource
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Event
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
-import io.mockk.impl.annotations.MockK
+import io.mockk.impl.annotations.RelaxedMockK
 import io.mockk.mockk
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
@@ -17,8 +20,11 @@ import retrofit2.Response
 
 @OptIn(ExperimentalCoroutinesApi::class)
 internal class EventsAPIDataSourceImplTest {
-    @MockK
+    @RelaxedMockK
     private lateinit var folkloreAPI: FolkloreAPI
+
+    @RelaxedMockK
+    private lateinit var mapperMock: Mapper<EventDto, Event>
 
     private lateinit var eventsAPIDataSource: EventsRemoteDataSource
 
@@ -27,6 +33,7 @@ internal class EventsAPIDataSourceImplTest {
         MockKAnnotations.init(this)
         eventsAPIDataSource = EventsAPIDataSourceImpl(
             folkloreAPI = folkloreAPI,
+            eventDtoMapper = mapperMock,
         )
     }
 
@@ -41,7 +48,7 @@ internal class EventsAPIDataSourceImplTest {
         val result = eventsAPIDataSource.getEvents()
 
         result.isSuccess shouldBe true
-        result.getOrNull()!!.results shouldBeEqualTo responseModelMock.results
+        result.getOrNull()!! shouldBeEqualTo responseModelMock.results
     }
 
     @Test

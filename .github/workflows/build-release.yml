@@ -14,7 +14,7 @@ jobs:
 
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup JDK
       uses: actions/setup-java@v2
@@ -57,6 +57,14 @@ jobs:
            echo $ENCODED_STRING > keystore-b64.txt
            base64 -d keystore-b64.txt > $SIGNING_KEY_STORE_PATH
 
+    - name: Install Fastlane
+      run: |
+        sudo gem install fastlane -NV
+        
+    - name: Run tests with Fastlane
+      run: |
+          fastlane tests
+
     - name: Build Release Bundle(aab)
       env:
          SIGNING_KEY_STORE_PATH: ${{ secrets.SIGNING_KEY_STORE_PATH }}
@@ -68,13 +76,9 @@ jobs:
     - name: Upload release .aab to artifacts
       uses: actions/upload-artifact@v2
       with:
-        name: release.aab
+        name: colombiaRelease.aab
         path: app/build/outputs/bundle/colombiaRelease/app-colombia-release.aab
 
-    - name: Install Fastlane
-      run: |
-        sudo gem install fastlane -NV
-      
     - name: Run Fastlane to upload AAB to Google Play (internal track)
       env:
         PLAY_STORE_SERVICE_ACCOUNT_JSON: ${{ secrets.PLAY_STORE_SERVICE_ACCOUNT_JSON }}
