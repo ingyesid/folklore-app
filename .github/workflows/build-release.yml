@@ -71,7 +71,8 @@ jobs:
          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}      
-      run: ./gradlew app:bundleRelease
+      run: |
+        fastlane bundleAppRelease
 
     - name: Upload release .aab to artifacts
       uses: actions/upload-artifact@v2
