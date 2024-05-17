@@ -1,17 +1,17 @@
-package com.folklore.app.data.datasource
+package com.folklore.data.datasource
 
-import com.folklore.app.data.database.EventDao
-import com.folklore.app.data.database.model.EventEntity
-import com.folklore.app.domain.datasource.EventsLocalDataSource
-import com.folklore.app.domain.mapping.Mapper
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.model.EventLocation
-import com.folklore.app.domain.model.EventStatus
+
+import com.folklore.data.database.EventDao
+import com.folklore.data.database.model.EventEntity
+import com.folklore.domain.datasource.EventsLocalDataSource
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Event
+import com.folklore.domain.model.EventLocation
+import com.folklore.domain.model.EventStatus
 import io.mockk.MockKAnnotations
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import org.amshove.kluent.shouldBe
 import org.amshove.kluent.shouldBeEqualTo
@@ -19,7 +19,6 @@ import org.junit.Before
 import org.junit.Test
 import java.util.Date
 
-@OptIn(ExperimentalCoroutinesApi::class)
 class EventsLocalDataSourceImplTest {
 
 
@@ -58,6 +57,7 @@ class EventsLocalDataSourceImplTest {
                 status = "active",
                 latitude = 37.7749,
                 longitude = -122.4194,
+                isFavorite = false,
             ),
         )
 
@@ -88,6 +88,7 @@ class EventsLocalDataSourceImplTest {
             status = "active",
             latitude = 37.7749,
             longitude = -122.4194,
+            isFavorite = false,
         )
         coEvery { eventsDao.getEvent(any()) } returns eventEntity
         every { entityMapper.mapTo(any()) } returns Event(

@@ -1,18 +1,16 @@
 package com.folklore.app.presentation.ui.view.events
 
-import com.folklore.app.domain.mapping.Mapper
-import com.folklore.app.domain.model.Event
-import com.folklore.app.domain.model.EventLocation
-import com.folklore.app.domain.model.EventStatus
-import com.folklore.app.domain.model.Resource
-import com.folklore.app.domain.usecase.GetAllEventsUseCase
 import com.folklore.app.presentation.model.EventUiModel
-import io.mockk.coEvery
+import com.folklore.domain.mapping.Mapper
+import com.folklore.domain.model.Event
+import com.folklore.domain.model.EventLocation
+import com.folklore.domain.model.EventStatus
+import com.folklore.domain.model.Resource
+import com.folklore.domain.usecase.GetAllEventsUseCase
 import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.TestScope
 import kotlinx.coroutines.test.UnconfinedTestDispatcher
