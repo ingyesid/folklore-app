@@ -32,15 +32,6 @@ platform :android do
 
   desc "Upload AAB to Google Play internal track"
     lane :uploadColBundleToPlayStoreInternal do
-      # Ensure environment variables are available
-      ENV['PLAY_STORE_SERVICE_ACCOUNT_JSON'] ||= ''
-      ENV['PACKAGE_NAME'] ||= ''
-
-      # Write the service account JSON to a file
-      File.open("google_play.json", "w") do |file|
-        file.write(ENV['PLAY_STORE_SERVICE_ACCOUNT_JSON'])
-      end
-
       supply(
         json_key: "google_play.json",
         package_name: ENV['PACKAGE_NAME'],
