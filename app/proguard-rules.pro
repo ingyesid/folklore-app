@@ -19,3 +19,25 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+-dontwarn com.folklore.data.database.EventDao
+-dontwarn com.folklore.data.datasource.LocalPreferencesDataSource
+-dontwarn com.folklore.data.remote.FolkloreAPI
+-dontwarn com.folklore.data.repository.UserPreferencesRepositoryImpl
+-dontwarn com.folklore.di.CoroutineDispatchersModule_ProvidesIoDispatcherFactory
+-dontwarn com.folklore.di.IoDispatcher
+-dontwarn com.folklore.di.RepositoryModule_ProvideAddFavoriteUseCaseFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideCheckIfEventIsFavoriteUseCaseFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideEntityMapperFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideEventDtoMapperFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideEventsDAOFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideEventsDatabaseFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideEventsLocalDataSourceFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideEventsRemoteDataSourceFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideEventsRepositoryFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideFolkloreAPIFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideGetAllEventsUseCaseFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideGetAllFavoritesUseCaseFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideOkHttpFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvidePreferencesDataStoreFactory
+-dontwarn com.folklore.di.RepositoryModule_ProvideRemoveFromFavoriteUseCaseFactory
