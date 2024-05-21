@@ -33,10 +33,11 @@ class EventsViewModel @Inject constructor(
     }
 
     private fun getAllEvents() = viewModelScope.launch(dispatcher) {
+        _uiState.update { it.copy(loading = true) }
         getAllEventsUseCase().collect { resource ->
             when (resource) {
                 is Resource.Error -> {
-                    _uiState.update { it.copy(loading = false) }
+                    _uiState.update { it.copy(loading = false, error = true) }
                 }
 
                 is Resource.Loading -> {
