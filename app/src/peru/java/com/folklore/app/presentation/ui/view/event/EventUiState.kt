@@ -6,7 +6,7 @@ data class EventUiState(
     val loading: Boolean = false,
     val isFavorite: Boolean = false,
     val event: EventDetailsUiModel,
-    override val showBuyTicketOption: Boolean = false
+    override val isAddToFavoriteAvailable: Boolean = false,
 ) : BaseEventUiState {
     companion object {
         fun default() = EventUiState(
