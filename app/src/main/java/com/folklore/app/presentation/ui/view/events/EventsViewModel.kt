@@ -37,7 +37,12 @@ class EventsViewModel @Inject constructor(
         getAllEventsUseCase().collect { resource ->
             when (resource) {
                 is Resource.Error -> {
-                    _uiState.update { it.copy(loading = false, error = true) }
+                    _uiState.update {
+                        it.copy(
+                            loading = false,
+                            error = resource.exception?.message ?: resource.message
+                        )
+                    }
                 }
 
                 is Resource.Loading -> {

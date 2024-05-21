@@ -62,8 +62,8 @@ fun EventsScreenContent(
 ) {
     if (uiState.loading) {
         LoadingScreen()
-    } else if (uiState.error) {
-        ErrorScreen()
+    } else if (uiState.error.isNotEmpty()) {
+        ErrorScreen(message = uiState.error)
     } else {
         Column(
             modifier = Modifier
@@ -146,22 +146,25 @@ fun LoadingScreen() {
 }
 
 @Composable
-fun ErrorScreen() {
+fun ErrorScreen(message: String) {
     Box(
         Modifier.fillMaxSize(),
     ) {
         Row(
             modifier = Modifier
+                .fillMaxWidth()
                 .align(
                     Alignment.Center
                 ),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             // create image from resource
             Image(
                 imageVector = ImageVector.vectorResource(id = R.drawable.rounded_error_24),
                 contentDescription = "Error"
             )
-            Text(text = "Error")
+            Text(text = message)
         }
     }
 }
@@ -200,8 +203,8 @@ fun HomeScreenContentLoadingPreview(
     )
 }
 
-@Preview
+@Preview(showBackground = true)
 @Composable
 private fun ErrorScreenPreview() {
-    ErrorScreen()
+    ErrorScreen("Network error")
 }
