@@ -4,4 +4,4 @@ appId: com.folklore.app.col
     clearState: true
 - extendedWaitUntil:
     visible: "Near you"
-    timeout: 6000
+    timeout: 10000
