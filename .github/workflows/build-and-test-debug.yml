@@ -1,0 +1,64 @@
+name: Build debug apk and runt tests(included UI)
+
+on:
+  push:
+    branches:
+      - develop
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Setup JDK
+      uses: actions/setup-java@v2
+      with:
+        java-version: 17
+        distribution: 'zulu'
+
+    - name: Setup Android SDK
+      uses: android-actions/setup-android@v2
+      
+    - name: Make gradlew executable
+      run: chmod +x ./gradlew
+
+    - name: Generate Gradle checksums
+      run: |
+          find "." -name "gradle.lockfile" -type f | sort | xargs shasum  > gradle-checksums.txt
+          cat gradle-checksums.txt  
+
+    - name: Setup gradlew cache
+      uses: actions/cache@v3  
+      with:
+          path: ~/.gradle
+          key: gradle-${{ hashFiles('gradle-checksums.txt') }}-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            gradle-${{ hashFiles('gradle-checksums.txt') }}-  
+
+    - name: Setup local.properties
+      env:
+        APIURL: ${{ secrets.APIURL }}
+        APPID: ${{ secrets.APPID }}          
+        APIRESTKEY: ${{ secrets.APIRESTKEY }}
+      run: |
+          sed "s|APIRESTKEY|$APIRESTKEY|g; s|APPID|$APPID|g; s|APIURL|$APIURL|g" local.defaults.properties > local.properties
+
+    - name: Build debug Apk
+      run: ./gradlew assembleDebug
+
+    - name: Run all unit tests
+      run: ./gradlew testDebugUnitTest
+
+    - name: Run all UI tests(with Maestro)
+      uses: mobile-dev-inc/action-maestro-cloud@v1
+      with:
+           api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+           app-file: app/build/outputs/apk/colombia/debug/app-colombia-debug.apk
+
+
+
+
+
+    
