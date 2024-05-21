@@ -10,15 +10,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -26,9 +23,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.folklore.app.R
-import com.folklore.app.presentation.model.EventUiModel
 import com.folklore.app.presentation.model.FavoriteEventUiModel
-import com.folklore.app.presentation.ui.view.events.EventItem
 
 @Composable
 fun FavoritesScreen(
@@ -59,6 +54,7 @@ fun FavoritesScreenContent(
             Text(text = stringResource(id = R.string.favorites_screen_title), fontSize = 24.sp)
             Spacer(modifier = Modifier.size(24.dp))
             LazyColumn(
+                modifier = Modifier.testTag("favorites_list"),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(vertical = 8.dp),
             ) {

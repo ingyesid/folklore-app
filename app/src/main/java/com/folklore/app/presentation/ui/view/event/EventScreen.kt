@@ -12,11 +12,11 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.LocationOn
 import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.rounded.ArrowBack
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -52,23 +52,17 @@ fun EventScreen(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     EventScreenContent(
-        isLoading = uiState.loading,
-        event = uiState.event,
-        isFavorite = uiState.isFavorite,
+        eventUiState = uiState,
         onBackClick = { onBackClick() },
         onAddToFavoritesClick = onAddToFavoritesClick,
         onRemoveFromFavoritesClick = onRemoveFromFavoritesClick,
-        showBuyTicketOption = uiState.showBuyTicketOption
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun EventScreenContent(
-    isLoading: Boolean,
-    isFavorite: Boolean,
-    event: EventDetailsUiModel,
-    showBuyTicketOption: Boolean,
+    eventUiState: EventUiState,
     modifier: Modifier = Modifier,
     onBackClick: () -> Unit,
     onAddToFavoritesClick: () -> Unit,
@@ -79,13 +73,16 @@ fun EventScreenContent(
         topBar = {
             TopAppBar(title = {
                 Text(
-                    text = event.title,
+                    text = eventUiState.event.title,
                 )
             }, scrollBehavior = scrollBehavior, navigationIcon = {
                 IconButton(onClick = {
                     onBackClick()
                 }) {
-                    Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = "Go Back")
+                    Icon(
+                        imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
+                        contentDescription = "Go Back"
+                    )
                 }
             })
         },
@@ -94,7 +91,7 @@ fun EventScreenContent(
         Column(
             modifier = Modifier.padding(contentPadding),
         ) {
-            if (isLoading) {
+            if (eventUiState.loading) {
                 Box(Modifier.fillMaxSize()) {
                     CircularProgressIndicator(
                         color = MaterialTheme.colorScheme.onSurface,
@@ -107,8 +104,8 @@ fun EventScreenContent(
                         .background(Color.White)
                         .fillMaxWidth()
                         .height(200.dp),
-                    model = event.imageUrl,
-                    contentDescription = event.title,
+                    model = eventUiState.event.imageUrl,
+                    contentDescription = eventUiState.event.title,
                     contentScale = ContentScale.Crop,
                 )
                 Column(
@@ -120,9 +117,9 @@ fun EventScreenContent(
                         horizontalArrangement = Arrangement.End,
 
                         ) {
-                        if (showBuyTicketOption) {
+                        if (eventUiState.isAddToFavoriteAvailable) {
                             TextButton(onClick = {
-                                if (isFavorite) {
+                                if (eventUiState.isFavorite) {
                                     onRemoveFromFavoritesClick()
                                 } else {
                                     onAddToFavoritesClick()
@@ -130,13 +127,13 @@ fun EventScreenContent(
                             }) {
 
                                 Icon(
-                                    imageVector = if (isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
+                                    imageVector = if (eventUiState.isFavorite) Icons.Filled.Favorite else Icons.Outlined.FavoriteBorder,
                                     contentDescription = "Likes Icon",
                                     modifier = Modifier.size(24.dp),
                                 )
                                 Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                                 Text(
-                                    text = "${event.likes}",
+                                    text = "${eventUiState.event.likes}",
                                     style = MaterialTheme.typography.labelMedium,
                                     maxLines = 1,
                                 )
@@ -151,7 +148,7 @@ fun EventScreenContent(
                             )
                             Spacer(modifier = Modifier.size(ButtonDefaults.IconSpacing))
                             Text(
-                                text = "${event.goingCount}",
+                                text = "${eventUiState.event.goingCount}",
                                 style = MaterialTheme.typography.labelMedium,
                                 maxLines = 1,
                             )
@@ -166,19 +163,19 @@ fun EventScreenContent(
                             contentDescription = "Location Icon",
                         )
                         Text(
-                            text = "${event.location}",
+                            text = eventUiState.event.location,
                             style = MaterialTheme.typography.titleMedium,
                             maxLines = 1,
                         )
                     }
 
                     Text(
-                        text = event.startDate,
+                        text = eventUiState.event.startDate,
                         style = MaterialTheme.typography.labelSmall,
                         maxLines = 1,
                     )
                     Text(
-                        text = event.description,
+                        text = eventUiState.event.description,
                         style = MaterialTheme.typography.bodyMedium,
                         maxLines = 20,
                         overflow = TextOverflow.Ellipsis,
@@ -193,23 +190,50 @@ fun EventScreenContent(
 @Composable
 fun EventScreenContentPreview() {
     EventScreenContent(
-        isLoading = false,
-        isFavorite = false,
-        event =
-        EventDetailsUiModel(
-            id = "xyz",
-            title = "Google i/o extended",
-            description = "lorem ipsum bla",
-            imageUrl = "https://io.google/2021/assets/io_social_asset.jpg",
-            goingCount = 20,
-            likes = 30,
-            location = "Corozal, Sucre",
-            startDate = "May 29 , 2034",
-            endDate = "May 29 , 2034",
+        eventUiState = EventUiState(
+            loading = false,
+            isFavorite = false,
+            isAddToFavoriteAvailable = false,
+            event = EventDetailsUiModel(
+                id = "xyz",
+                title = "Google i/o extended",
+                description = "lorem ipsum bla",
+                imageUrl = "https://io.google/2021/assets/io_social_asset.jpg",
+                goingCount = 20,
+                likes = 30,
+                location = "Corozal, Sucre",
+                startDate = "May 29 , 2034",
+                endDate = "May 29 , 2034",
+            ),
         ),
         onBackClick = { },
         onAddToFavoritesClick = {},
         onRemoveFromFavoritesClick = {},
-        showBuyTicketOption = false,
+    )
+}
+
+@Preview(showSystemUi = true)
+@Composable
+fun EventScreenContentFavoriteAvailablePreview() {
+    EventScreenContent(
+        eventUiState = EventUiState(
+            loading = false,
+            isFavorite = false,
+            isAddToFavoriteAvailable = true,
+            event = EventDetailsUiModel(
+                id = "xyz",
+                title = "Google i/o extended",
+                description = "lorem ipsum bla",
+                imageUrl = "https://io.google/2021/assets/io_social_asset.jpg",
+                goingCount = 20,
+                likes = 30,
+                location = "Corozal, Sucre",
+                startDate = "May 29 , 2034",
+                endDate = "May 29 , 2034",
+            ),
+        ),
+        onBackClick = { },
+        onAddToFavoritesClick = {},
+        onRemoveFromFavoritesClick = {},
     )
 }

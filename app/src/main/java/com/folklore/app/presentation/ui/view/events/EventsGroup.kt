@@ -10,6 +10,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -18,39 +19,43 @@ import com.folklore.app.presentation.utils.EventsPreviewProvider
 
 @Composable
 fun EventsGroup(
+    modifier: Modifier = Modifier,
     header: String,
     horizontally: Boolean = false,
     events: List<EventUiModel>,
-    modifier: Modifier = Modifier,
     onClicked: (EventUiModel) -> Unit,
 ) {
     Column(
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Text(
-            text = header,
-            style = MaterialTheme.typography.titleMedium,
-        )
-        if (horizontally) {
-            LazyRow(
-                horizontalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(end = 8.dp),
-            ) {
-                items(events) { event ->
-                    PopularEventItem(event = event, onClicked = onClicked)
-                }
+        if (events.isNotEmpty())
+            Text(
+                text = header,
+                style = MaterialTheme.typography.titleMedium,
+            )
+    }
+    if (horizontally) {
+        LazyRow(
+            modifier = modifier.testTag(header),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(end = 8.dp),
+        ) {
+            items(events) { event ->
+                PopularEventItem(event = event, onClicked = onClicked)
             }
-        } else {
-            LazyColumn(
-                verticalArrangement = Arrangement.spacedBy(8.dp),
-                contentPadding = PaddingValues(vertical = 8.dp),
-            ) {
-                items(events) { event ->
-                    EventItem(event = event, onClicked = onClicked)
-                }
+        }
+    } else {
+        LazyColumn(
+            modifier = modifier.testTag(header),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
+            contentPadding = PaddingValues(vertical = 8.dp),
+        ) {
+            items(events) { event ->
+                EventItem(event = event, onClicked = onClicked)
             }
         }
     }
+
 }
 
 @Preview
