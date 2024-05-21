@@ -1,7 +1,7 @@
 appId: com.folklore.app.col
 ---
-- launchApp
-- assertVisible:
-    text: "Near you"
-- tapOn:
-    point: "50%,70%"
+- launchApp:
+    clearState: true
+- extendedWaitUntil:
+    visible: "Near you"
+    timeout: 3000
