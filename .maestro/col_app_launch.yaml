@@ -4,3 +4,16 @@ appId: com.folklore.app.col
     clearState: true
 - assertVisible:
     text: "Near you"
+- tapOn:
+    point: "50%,49%"
+- assertVisible:
+      id: "LikeButton"
+- tapOn:
+    id: "LikeButton"
+- assertVisible:
+    id: "LikedIcon"
+- tapOn: "Go Back"
+
+
+
+
